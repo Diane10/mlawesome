@@ -672,7 +672,7 @@ elif datasetchoice == 'Yes':
   
   class_name=['yes','no']
   if classifier_name == 'Deep Learning':
-      if st.sidebar.button("classify",key='classify'):
+      if st.sidebar.button("classify",key='deep'):
           X_train = X_train / 256.
           model = Sequential()
           model.add(Flatten())
