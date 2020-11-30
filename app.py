@@ -887,7 +887,6 @@ elif datasetchoice == 'Yes':
       ('Cross Validation', 'Voting'))
   if model_optimizer == 'Cross Validation':
       cv= st.sidebar.radio("cv",("Kfold","LeaveOneOut"),key='cv')
-      n_splits= st.sidebar.slider("maximum number of splits",1,30,key='n_splits')
       algorithim_name = st.sidebar.selectbox(
       'Choose algorithm',
       ('KNN', 'SVM', 'Random Forest','Logistic Regression')
@@ -907,8 +906,7 @@ elif datasetchoice == 'Yes':
                   st.write("Random Forest Accuracy:",score.mean())
               if algorithim_name =='Logistic Regression':
                   score =  cross_val_score(LogisticRegression(),X,Y,cv=kfold)
-                  st.write("Logistic Regression Accuracy:",score.mean())   
-
+                  st.write("Logistic Regression Accuracy:",score.mean())
          
           if cv=='LeaveOneOut':
               loo = LeaveOneOut()
