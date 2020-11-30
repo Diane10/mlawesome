@@ -212,7 +212,7 @@ if datasetchoice=='No':
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
           st.write('Deep Learning Model accuracy: ',test_acc*100)
          
-  if classifier_name == 'Unsupervised Learning':
+  if classifier_name == 'Unsupervised Learning(K-MEANS)':
        st.sidebar.subheader('Model Hyperparmeter')
        n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
        if st.sidebar.button("Classify",key='unspervised'):	
@@ -640,7 +640,7 @@ elif datasetchoice == 'Yes':
 
 
 
-  if classifier_name == 'Unsupervised Learning':
+  if classifier_name == 'Unsupervised Learning(K-MEANS)':
     st.sidebar.subheader('Model Hyperparmeter')
     n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
     if st.sidebar.button("classify",key='classify'):	
