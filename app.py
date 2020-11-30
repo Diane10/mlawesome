@@ -420,10 +420,18 @@ if datasetchoice=='No':
           if cv=='Kfold':
               kfold= KFold(n_splits=n_splits)
               if algorithim_name =='KNN':
-                  score =  cross_val_score(KNN(),X,Y,cv=kfold)
+                  score =  cross_val_score(KNeighborsClassifier(n_neighbors=4),X,Y,cv=kfold)
                   st.write("KNN Accuracy:",score.mean()) 
-#               score =  cross_val_score(SVC(),X,Y,cv=kfold)
-#               st.write("Accuracy:",score.mean())
+              if algorithim_name =='SVM':
+                  score =  cross_val_score(SVC(),X,Y,cv=kfold)
+                  st.write("SVM Accuracy:",score.mean())
+              if algorithim_name =='Random Forest':
+                  score =  cross_val_score(RandomForestClassifier(),X,Y,cv=kfold)
+                  st.write("Random Forest Accuracy:",score.mean())
+              if algorithim_name =='Logistic Regression':
+                  score =  cross_val_score(LogisticRegression(),X,Y,cv=kfold)
+                  st.write("Logistic Regression Accuracy:",score.mean())   
+
          
           if cv=='LeaveOneOut':
               loo = LeaveOneOut()
@@ -880,11 +888,27 @@ elif datasetchoice == 'Yes':
   if model_optimizer == 'Cross Validation':
       cv= st.sidebar.radio("cv",("Kfold","LeaveOneOut"),key='cv')
       n_splits= st.sidebar.slider("maximum number of splits",1,30,key='n_splits')
+      algorithim_name = st.sidebar.selectbox(
+      'Choose algorithm',
+      ('KNN', 'SVM', 'Random Forest','Logistic Regression')
+  )
+      n_splits= st.sidebar.slider("maximum number of splits",1,30,key='n_splits')
       if st.sidebar.button("optimize",key='opt'):
           if cv=='Kfold':
               kfold= KFold(n_splits=n_splits)
-              score =  cross_val_score(SVC(),X,Y,cv=kfold)
-              st.write("Accuracy:",score.mean())
+              if algorithim_name =='KNN':
+                  score =  cross_val_score(KNeighborsClassifier(n_neighbors=4),X,Y,cv=kfold)
+                  st.write("KNN Accuracy:",score.mean()) 
+              if algorithim_name =='SVM':
+                  score =  cross_val_score(SVC(),X,Y,cv=kfold)
+                  st.write("SVM Accuracy:",score.mean())
+              if algorithim_name =='Random Forest':
+                  score =  cross_val_score(RandomForestClassifier(),X,Y,cv=kfold)
+                  st.write("Random Forest Accuracy:",score.mean())
+              if algorithim_name =='Logistic Regression':
+                  score =  cross_val_score(LogisticRegression(),X,Y,cv=kfold)
+                  st.write("Logistic Regression Accuracy:",score.mean())   
+
          
           if cv=='LeaveOneOut':
               loo = LeaveOneOut()
