@@ -215,7 +215,7 @@ if datasetchoice=='No':
   X_tested= sl.fit_transform(X_test)
   
   class_name=['yes','no']
-  st.sidebar.subheader('Advanced Model Hyperparmeter')
+  st.sidebar.subheader('Model Optimization ')
   model_optimizer = st.sidebar.selectbox(
       'Choose Optimizer',
       ('Cross Validation', 'Voting'))
@@ -443,7 +443,7 @@ if datasetchoice=='No':
               plot_roc_curve(model,X_tested,y_test)
               st.pyplot() 
               
-  if classifier_name == 'gradientBoosting':
+  if classifier_name == 'GradientBoosting':
       st.sidebar.subheader('Model Hyperparmeter')
       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
       seed= st.sidebar.number_input("learning rate",1,150,step=1,key='seed')
@@ -620,7 +620,7 @@ elif datasetchoice == 'Yes':
   st.sidebar.subheader('Choose Classifer')
   classifier_name = st.sidebar.selectbox(
       'Choose classifier',
-      ('KNN', 'SVM', 'Random Forest','Logistic Regression','XGBOOST','Unsupervised Learning')
+      ('KNN', 'SVM', 'Random Forest','Logistic Regression','GradientBoosting','Deep Learning','ADABoost','Unsupervised Learning(K-MEANS)')
   )
   label= LabelEncoder()
   for col in df.columns:
@@ -794,25 +794,23 @@ elif datasetchoice == 'Yes':
               st.subheader('precision_recall_curve')
               plot_roc_curve(model,X_tested,y_test)
               st.pyplot() 
-  
-  
-  if classifier_name == 'XGBOOST':
+  if classifier_name == 'ADABoost':
       st.sidebar.subheader('Model Hyperparmeter')
       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
-      seed= st.sidebar.number_input("number of the seed",1,150,step=1,key='seed')
+      seed= st.sidebar.number_input("learning rate",1,150,step=1,key='seed')
       metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
   
       if st.sidebar.button("classify",key='classify'):
-          st.subheader("XGBOOST result")
+          st.subheader("ADABoost result")
     
-          model= xgb.XGBClassifier(n_estimators=n_estimators,seed=seed)
+          model=AdaBoostClassifier(n_estimators=n_estimators,learning_rate=seed)
           model.fit(X_trained,y_train)
           y_prediction= model.predict(X_tested)
           acc= accuracy_score(y_test,y_prediction)
           st.write("Accuracy:",acc.round(2))
           st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
           st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
-          st.write("ROC_AUC_score:",roc_auc_score(y_test,y_prediction,average='micro').round(2))
+          
   
         
   
@@ -831,6 +829,127 @@ elif datasetchoice == 'Yes':
               st.subheader('precision_recall_curve')
               plot_roc_curve(model,X_tested,y_test)
               st.pyplot() 
+              
+  if classifier_name == 'GradientBoosting':
+      st.sidebar.subheader('Model Hyperparmeter')
+      n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
+      seed= st.sidebar.number_input("learning rate",1,150,step=1,key='seed')
+      metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
+  
+      if st.sidebar.button("classify",key='classify'):
+          st.subheader("gradientBoosting result")
+    
+          model=GradientBoostingClassifier(n_estimators=n_estimators,learning_rate=seed)
+          model.fit(X_trained,y_train)
+          y_prediction= model.predict(X_tested)
+          acc= accuracy_score(y_test,y_prediction)
+          st.write("Accuracy:",acc.round(2))
+          st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
+          st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
+          
+  
+        
+  
+          if 'confusion matrix' in metrics:
+              st.set_option('deprecation.showPyplotGlobalUse', False)
+              st.subheader('confusion matrix')
+              plot_confusion_matrix(model,X_tested,y_test)
+              st.pyplot()
+          if 'roc_curve' in metrics:
+              st.set_option('deprecation.showPyplotGlobalUse', False)
+              st.subheader('plot_roc_curve')
+              plot_roc_curve(model,X_tested,y_test)
+              st.pyplot()
+          if 'precision_recall_curve' in metrics:
+              st.set_option('deprecation.showPyplotGlobalUse', False)
+              st.subheader('precision_recall_curve')
+              plot_roc_curve(model,X_tested,y_test)
+              st.pyplot() 
+              
+  st.sidebar.subheader('Model Optimization ')
+  model_optimizer = st.sidebar.selectbox(
+      'Choose Optimizer',
+      ('Cross Validation', 'Voting'))
+  if model_optimizer == 'Cross Validation':
+      cv= st.sidebar.radio("cv",("Kfold","LeaveOneOut"),key='cv')
+      n_splits= st.sidebar.slider("maximum number of splits",1,30,key='n_splits')
+      if st.sidebar.button("optimize",key='opt'):
+          if cv=='Kfold':
+              kfold= KFold(n_splits=n_splits)
+              score =  cross_val_score(SVC(),X,Y,cv=kfold)
+              st.write("Accuracy:",score.mean())
+         
+          if cv=='LeaveOneOut':
+              loo = LeaveOneOut()
+              score =  cross_val_score(SVC(),X,Y,cv=loo)
+              st.write("Accuracy:",score.mean())
+
+  if model_optimizer == 'Voting':
+      voting= st.sidebar.multiselect("What is the algorithms you want to use?",('LogisticRegression','DecisionTreeClassifier','SVC','KNeighborsClassifier','GaussianNB','LinearDiscriminantAnalysis','AdaBoostClassifier','GradientBoostingClassifier','ExtraTreesClassifier'))
+      estimator=[]
+      if 'LogisticRegression' in voting:
+          model1=LogisticRegression()
+          estimator.append(model1)
+      if 'DecisionTreeClassifier' in voting:
+          model2=DecisionTreeClassifier()
+          estimator.append(model2)
+      if 'SVC' in voting:
+          model3=SVC()
+          estimator.append(model3)   
+      if 'KNeighborsClassifier' in voting:
+          model4=KNeighborsClassifier()
+          estimator.append(model4)
+      if st.sidebar.button("optimize",key='opt'):
+          ensemble = VotingClassifier(estimator)
+          results = cross_val_score(ensemble, X, Y)
+          st.write(results.mean())       
+          
+   
+  if classifier_name == 'Deep Learning':
+      if st.sidebar.button("classify",key='classify'):
+          model = Sequential()
+          model.add(Flatten())
+          model.add(Dense(units=25,activation='relu'))
+          model.add(Dense(units=15,activation='softmax'))
+          model.compile(loss='sparse_categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
+          model.fit(X_train, y_train, epochs=10)
+          test_loss, test_acc =model.evaluate(X_test,  y_test, verbose=2)
+          st.write('Model accuracy: ',test_acc*100)
+#   if classifier_name == 'XGBOOST':
+#       st.sidebar.subheader('Model Hyperparmeter')
+#       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
+#       seed= st.sidebar.number_input("number of the seed",1,150,step=1,key='seed')
+#       metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
+  
+#       if st.sidebar.button("classify",key='classify'):
+#           st.subheader("XGBOOST result")
+    
+#           model= xgb.XGBClassifier(n_estimators=n_estimators,seed=seed)
+#           model.fit(X_trained,y_train)
+#           y_prediction= model.predict(X_tested)
+#           acc= accuracy_score(y_test,y_prediction)
+#           st.write("Accuracy:",acc.round(2))
+#           st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
+#           st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
+#           st.write("ROC_AUC_score:",roc_auc_score(y_test,y_prediction,average='micro').round(2))
+  
+        
+  
+#           if 'confusion matrix' in metrics:
+#               st.set_option('deprecation.showPyplotGlobalUse', False)
+#               st.subheader('confusion matrix')
+#               plot_confusion_matrix(model,X_tested,y_test)
+#               st.pyplot()
+#           if 'roc_curve' in metrics:
+#               st.set_option('deprecation.showPyplotGlobalUse', False)
+#               st.subheader('plot_roc_curve')
+#               plot_roc_curve(model,X_tested,y_test)
+#               st.pyplot()
+#           if 'precision_recall_curve' in metrics:
+#               st.set_option('deprecation.showPyplotGlobalUse', False)
+#               st.subheader('precision_recall_curve')
+#               plot_roc_curve(model,X_tested,y_test)
+#               st.pyplot() 
                     
         
 
