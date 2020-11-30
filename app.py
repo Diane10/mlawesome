@@ -224,8 +224,8 @@ if datasetchoice=='No':
           model.add(Dense(units=25,activation='relu'))
           model.add(Dense(units=15,activation='softmax'))
           model.compile(loss='sparse_categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
-          model.fit(X_train, y_train, epochs=10)
-          test_loss, test_acc =model.evaluate(X_test,  y_test, verbose=2)
+          model.fit(X_train.values, y_train.values, epochs=10)
+          test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
           st.write('Model accuracy: ',test_acc*100)
          
             
