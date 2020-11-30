@@ -215,7 +215,7 @@ if datasetchoice=='No':
   if classifier_name == 'Unsupervised Learning':
        st.sidebar.subheader('Model Hyperparmeter')
        n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
-       if st.sidebar.button("classify",key='unspervised'):	
+       if st.sidebar.button("Classify",key='unspervised'):	
            sc = StandardScaler()
            X_transformed = sc.fit_transform(df)
            pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
