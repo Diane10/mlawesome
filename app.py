@@ -191,7 +191,7 @@ if datasetchoice=='No':
   if classifier_name == 'Unsupervised Learning':
     st.sidebar.subheader('Model Hyperparmeter')
     n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
-    if st.sidebar.button("classify",key='classify'):	
+    if st.sidebar.button("classify",key='unspervised'):	
         sc = StandardScaler()
         X_transformed = sc.fit_transform(df)
         pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
@@ -200,7 +200,7 @@ if datasetchoice=='No':
         st.set_option('deprecation.showPyplotGlobalUse', False)
     # plt.figure(figsize=(12,10))
         plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
-        plt.title('CLustering Projection');
+        plt.title('Clustering Projection');
         st.pyplot()
   
   Y = df.target
