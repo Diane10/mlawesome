@@ -197,7 +197,6 @@ if datasetchoice=='No':
         kmeans = KMeans(n_clusters)
         kmeans.fit(pca)
         st.set_option('deprecation.showPyplotGlobalUse', False)
-    # plt.figure(figsize=(12,10))
         plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
         plt.title('Clustering Projection');
         st.pyplot()
@@ -213,9 +212,7 @@ if datasetchoice=='No':
   X_trained= sl.fit_transform(X_train)
   X_tested= sl.fit_transform(X_test)
   
-  class_name=['yes','no']
-  
-   
+  class_name=['yes','no']  
   if classifier_name == 'Deep Learning':
       if st.sidebar.button("classify",key='classify'):
           X_train = X_train / 256.
