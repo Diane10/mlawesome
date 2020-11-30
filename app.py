@@ -182,7 +182,7 @@ if datasetchoice=='No':
   st.sidebar.subheader('Choose Classifer')
   classifier_name = st.sidebar.selectbox(
       'Choose classifier',
-      ('KNN', 'SVM', 'Random Forest','Logistic Regression','gradientBoosting','Deep Learning','ADABoost','Unsupervised Learning(K-MEANS)')
+      ('KNN', 'SVM', 'Random Forest','Logistic Regression','gradientBoosting','ADABoost','Unsupervised Learning(K-MEANS)','Deep Learning')
   )
   label= LabelEncoder()
   for col in df.columns:
@@ -227,7 +227,7 @@ if datasetchoice=='No':
           model.compile(loss='sparse_categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
           model.fit(X_train.values, y_train.values, epochs=10)
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
-          st.write('Model accuracy: ',test_acc*100)
+          st.write('Deep Learning Model accuracy: ',test_acc*100)
          
             
       
@@ -636,7 +636,7 @@ elif datasetchoice == 'Yes':
   st.sidebar.subheader('Choose Classifer')
   classifier_name = st.sidebar.selectbox(
       'Choose classifier',
-      ('KNN', 'SVM', 'Random Forest','Logistic Regression','GradientBoosting','Deep Learning','ADABoost','Unsupervised Learning(K-MEANS)')
+      ('KNN', 'SVM', 'Random Forest','Logistic Regression','GradientBoosting','ADABoost','Unsupervised Learning(K-MEANS)','Deep Learning')
   )
   label= LabelEncoder()
   for col in df.columns:
@@ -671,7 +671,17 @@ elif datasetchoice == 'Yes':
   X_tested= sl.fit_transform(X_test)
   
   class_name=['yes','no']
-  
+  if classifier_name == 'Deep Learning':
+      if st.sidebar.button("classify",key='classify'):
+          X_train = X_train / 256.
+          model = Sequential()
+          model.add(Flatten())
+          model.add(Dense(units=25,activation='relu'))
+          model.add(Dense(units=15,activation='softmax'))
+          model.compile(loss='sparse_categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
+          model.fit(X_train.values, y_train.values, epochs=10)
+          test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
+          st.write('Deep Learning Model accuracy: ',test_acc*100)
   if classifier_name == 'SVM':
       st.sidebar.subheader('Model Hyperparmeter')
       c= st.sidebar.number_input("c(Reguralization)",0.01,10.0,step=0.01,key='c')
