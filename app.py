@@ -182,24 +182,11 @@ if datasetchoice=='No':
   st.sidebar.subheader('Choose Classifer')
   classifier_name = st.sidebar.selectbox(
       'Choose classifier',
-      ('KNN', 'SVM', 'Random Forest','Logistic Regression','gradientBoosting','ADABoost','Unsupervised Learning(K-MEANS)','Deep Learning')
+      ('KNN', 'SVM', 'Random Forest','Logistic Regression','GradientBoosting','ADABoost','Unsupervised Learning(K-MEANS)','Deep Learning')
   )
   label= LabelEncoder()
   for col in df.columns:
     df[col]=label.fit_transform(df[col])
-  if classifier_name == 'Unsupervised Learning':
-    st.sidebar.subheader('Model Hyperparmeter')
-    n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
-    if st.sidebar.button("classify",key='unspervised'):	
-        sc = StandardScaler()
-        X_transformed = sc.fit_transform(df)
-        pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
-        kmeans = KMeans(n_clusters)
-        kmeans.fit(pca)
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
-        plt.title('Clustering Projection');
-        st.pyplot()
   
   Y = df.target
   X = df.drop(columns=['target'])
@@ -225,6 +212,19 @@ if datasetchoice=='No':
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
           st.write('Deep Learning Model accuracy: ',test_acc*100)
          
+  if classifier_name == 'Unsupervised Learning':
+       st.sidebar.subheader('Model Hyperparmeter')
+       n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
+       if st.sidebar.button("classify",key='unspervised'):	
+           sc = StandardScaler()
+           X_transformed = sc.fit_transform(df)
+           pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
+           kmeans = KMeans(n_clusters)
+           kmeans.fit(pca)
+           st.set_option('deprecation.showPyplotGlobalUse', False)
+           plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
+           plt.title('Clustering Projection');
+           st.pyplot()
             
       
   if classifier_name == 'SVM':
