@@ -187,7 +187,6 @@ if datasetchoice=='No':
   label= LabelEncoder()
   for col in df.columns:
     df[col]=label.fit_transform(df[col])
-      
   if classifier_name == 'Unsupervised Learning':
     st.sidebar.subheader('Model Hyperparmeter')
     n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
