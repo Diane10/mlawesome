@@ -219,6 +219,7 @@ if datasetchoice=='No':
    
   if classifier_name == 'Deep Learning':
       if st.sidebar.button("classify",key='classify'):
+          X_train = X_train / 256.
           model = Sequential()
           model.add(Flatten())
           model.add(Dense(units=25,activation='relu'))
