@@ -215,44 +215,7 @@ if datasetchoice=='No':
   X_tested= sl.fit_transform(X_test)
   
   class_name=['yes','no']
-  st.sidebar.subheader('Model Optimization ')
-  model_optimizer = st.sidebar.selectbox(
-      'Choose Optimizer',
-      ('Cross Validation', 'Voting'))
-  if model_optimizer == 'Cross Validation':
-      cv= st.sidebar.radio("cv",("Kfold","LeaveOneOut"),key='cv')
-      n_splits= st.sidebar.slider("maximum number of splits",1,30,key='n_splits')
-      if st.sidebar.button("optimize",key='opt'):
-          if cv=='Kfold':
-              kfold= KFold(n_splits=n_splits)
-              score =  cross_val_score(SVC(),X,Y,cv=kfold)
-              st.write("Accuracy:",score.mean())
-         
-          if cv=='LeaveOneOut':
-              loo = LeaveOneOut()
-              score =  cross_val_score(SVC(),X,Y,cv=loo)
-              st.write("Accuracy:",score.mean())
-
-  if model_optimizer == 'Voting':
-      voting= st.sidebar.multiselect("What is the algorithms you want to use?",('LogisticRegression','DecisionTreeClassifier','SVC','KNeighborsClassifier','GaussianNB','LinearDiscriminantAnalysis','AdaBoostClassifier','GradientBoostingClassifier','ExtraTreesClassifier'))
-      estimator=[]
-      if 'LogisticRegression' in voting:
-          model1=LogisticRegression()
-          estimator.append(model1)
-      if 'DecisionTreeClassifier' in voting:
-          model2=DecisionTreeClassifier()
-          estimator.append(model2)
-      if 'SVC' in voting:
-          model3=SVC()
-          estimator.append(model3)   
-      if 'KNeighborsClassifier' in voting:
-          model4=KNeighborsClassifier()
-          estimator.append(model4)
-      if st.sidebar.button("optimize",key='opt'):
-          ensemble = VotingClassifier(estimator)
-          results = cross_val_score(ensemble, X, Y)
-          st.write(results.mean())       
-          
+  
    
   if classifier_name == 'Deep Learning':
       if st.sidebar.button("classify",key='classify'):
@@ -442,7 +405,51 @@ if datasetchoice=='No':
               st.subheader('precision_recall_curve')
               plot_roc_curve(model,X_tested,y_test)
               st.pyplot() 
-              
+  st.sidebar.subheader('Model Optimization ')
+  model_optimizer = st.sidebar.selectbox(
+      'Choose Optimizer',
+      ('Cross Validation', 'Voting'))
+  if model_optimizer == 'Cross Validation':
+      cv= st.sidebar.radio("cv",("Kfold","LeaveOneOut"),key='cv')
+      algorithim_name = st.sidebar.selectbox(
+      'Choose algorithm',
+      ('KNN', 'SVM', 'Random Forest','Logistic Regression')
+  )
+      n_splits= st.sidebar.slider("maximum number of splits",1,30,key='n_splits')
+      if st.sidebar.button("optimize",key='opt'):
+          if cv=='Kfold':
+              kfold= KFold(n_splits=n_splits)
+              if algorithim_name =='KNN':
+                  score =  cross_val_score(KNN(),X,Y,cv=kfold)
+                  st.write("KNN Accuracy:",score.mean()) 
+#               score =  cross_val_score(SVC(),X,Y,cv=kfold)
+#               st.write("Accuracy:",score.mean())
+         
+          if cv=='LeaveOneOut':
+              loo = LeaveOneOut()
+              score =  cross_val_score(SVC(),X,Y,cv=loo)
+              st.write("Accuracy:",score.mean())
+
+  if model_optimizer == 'Voting':
+      voting= st.sidebar.multiselect("What is the algorithms you want to use?",('LogisticRegression','DecisionTreeClassifier','SVC','KNeighborsClassifier','GaussianNB','LinearDiscriminantAnalysis','AdaBoostClassifier','GradientBoostingClassifier','ExtraTreesClassifier'))
+      estimator=[]
+      if 'LogisticRegression' in voting:
+          model1=LogisticRegression()
+          estimator.append(model1)
+      if 'DecisionTreeClassifier' in voting:
+          model2=DecisionTreeClassifier()
+          estimator.append(model2)
+      if 'SVC' in voting:
+          model3=SVC()
+          estimator.append(model3)   
+      if 'KNeighborsClassifier' in voting:
+          model4=KNeighborsClassifier()
+          estimator.append(model4)
+      if st.sidebar.button("optimize",key='opt'):
+          ensemble = VotingClassifier(estimator)
+          results = cross_val_score(ensemble, X, Y)
+          st.write(results.mean())       
+                      
   if classifier_name == 'GradientBoosting':
       st.sidebar.subheader('Model Hyperparmeter')
       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
