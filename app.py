@@ -124,7 +124,7 @@ if datasetchoice=='No':
     st.pyplot()
   
 
-  # Pie C
+  # Pie Chart
   if st.checkbox("Pie Plot"):
     all_columns_names = df.columns.tolist()
     if st.button("Generate Pie Plot"):
