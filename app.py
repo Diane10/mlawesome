@@ -184,7 +184,8 @@ if datasetchoice=='No':
     st.dataframe(df.isnull().sum())
   if st.checkbox("Visualize categorical features"):
     categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
-    st.dataframe(df[categorical_feature_columns])
+    df=df[categorical_feature_columns]
+    st.dataframe(df)
   if st.checkbox("Encoding features"):
     label= LabelEncoder()
     for col in df.columns:
