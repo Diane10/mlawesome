@@ -636,6 +636,13 @@ elif datasetchoice == 'Yes':
 
     if st.button("End of Data Exploration"):
       st.balloons()
+  st.subheader("Feature Engineering")    
+  if st.checkbox("Select Columns for creation of model"):
+    all_columns = df.columns.tolist()
+    selected_columns = st.multiselect("Select",all_columns)
+    new_df = df[selected_columns]
+    st.dataframe(new_df)
+    df=new_df    
   st.sidebar.subheader('Choose Classifer')
   classifier_name = st.sidebar.selectbox(
       'Choose classifier',
