@@ -533,12 +533,6 @@ if datasetchoice=='No':
               
 elif datasetchoice == 'Yes': 
   data_file = st.file_uploader("Upload CSV",type=['csv'])
-# if st.button("Process"):
-#   if data_file is not None:
-#     file_details = {"Filename":data_file.name,"FileType":data_file.type,"FileSize":data_file.size}
-#     st.write(file_details)
-#     df = pd.read_csv(data_file)
-#     st.dataframe(df)
   st.write("Note:if you want to do classification make sure you have target attributes")    	
   def file_selector(dataset):
     if dataset is not None:
