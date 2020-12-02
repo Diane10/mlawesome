@@ -645,8 +645,9 @@ elif datasetchoice == 'Yes':
     dt=df[categorical_feature_columns]
     st.dataframe(dt)
   if st.checkbox("Encoding features"):
+    categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
     label= LabelEncoder()
-    for col in df.columns:
+    for col in df[categorical_feature_columns]:
       df[col]=label.fit_transform(df[col])
     st.dataframe(df)    
   st.subheader("Feature Engineering")    
