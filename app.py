@@ -190,7 +190,7 @@ if datasetchoice=='No':
     label= LabelEncoder()
     for col in df.columns:
       df[col]=label.fit_transform(df[col])
-      st.dataframe(df.head(20))
+    st.dataframe(df.head(20))
   st.subheader("Feature Engineering")    
   if st.checkbox("Select Columns for creation of model"):
     all_columns = df.columns.tolist()
