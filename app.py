@@ -846,7 +846,18 @@ elif datasetchoice == 'Yes':
           st.write("Accuracy:",acc.round(2))
           st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
           st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
-          
+          #    prediction part    
+         if st.checkbox('Prediction Part'):
+            dt= set(X.columns)
+            user_input=[]
+            for i in dt:
+               firstname = st.text_input(i,"Type here...")
+               user_input.append(firstname)
+            if st.button("Prediction",key='predict'):
+               my_array= np.array([user_input])
+               model.fit(X_train,y_train)
+               y_user_prediction= model.predict(my_array)
+               st.write(y_user_prediction)
   
         
   
