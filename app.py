@@ -188,8 +188,8 @@ if datasetchoice=='No':
     st.dataframe(dt)
   if st.checkbox("Encoding features"):
     label= LabelEncoder()
-    for col in df.columns:
-      df[col]=label.fit_transform(df[col])
+    for col in dt.columns:
+      dt[col]=label.fit_transform(dt[col])
     st.dataframe(df)
     
   st.subheader("Feature Engineering")    
