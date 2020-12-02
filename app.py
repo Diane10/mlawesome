@@ -659,8 +659,13 @@ elif datasetchoice == 'Yes':
     all_columns = df.columns.tolist()
     selected_columns = st.multiselect("Select",all_columns)
     new_df = df[selected_columns]
-    st.dataframe(new_df)
-    df=new_df    
+#     st.dataframe(new_df)
+    df=new_df  
+    categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
+    label= LabelEncoder()
+    for col in df[categorical_feature_columns]:
+      df[col]=label.fit_transform(df[col])
+    st.dataframe(df) 
   st.sidebar.subheader('Choose Classifer')
   classifier_name = st.sidebar.selectbox(
       'Choose classifier',
