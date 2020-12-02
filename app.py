@@ -854,8 +854,14 @@ elif datasetchoice == 'Yes':
               plot_roc_curve(model,X_tested,y_test)
               st.pyplot() 
   if st.sidebar.checkbox('Prediction Part'):
+      st.subheader('Please fill out this form')
       dt= set(X.columns)
       user_input=[]
+      safe_html="""  
+      <div style="background-color:#F4D03F;padding:10px >
+       <h2 style="color:white;text-align:center;"> This Data located in this class</h2>
+       </div>
+    """
       for i in dt:
           firstname = st.text_input(i,"Type here...")
           user_input.append(firstname)
@@ -864,7 +870,9 @@ elif datasetchoice == 'Yes':
           model=AdaBoostClassifier(n_estimators=12)
           model.fit(X_train,y_train)
           y_user_prediction= model.predict(my_array)
-          st.write(y_user_prediction)            
+          for i in df.target.unique():
+              if i == y_user_prediction:
+                 st.markdown(safe_html,unsafe_allow_html=True)
   if classifier_name == 'ADABoost':
       st.sidebar.subheader('Model Hyperparmeter')
       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
