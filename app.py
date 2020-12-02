@@ -829,7 +829,7 @@ elif datasetchoice == 'Yes':
               st.subheader('precision_recall_curve')
               plot_roc_curve(model,X_tested,y_test)
               st.pyplot() 
-  if st.side.sicheckbox('Prediction Part'):
+  if st.sidebar.checkbox('Prediction Part'):
       dt= set(X.columns)
       user_input=[]
       for i in dt:
