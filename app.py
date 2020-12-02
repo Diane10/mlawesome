@@ -184,13 +184,14 @@ if datasetchoice=='No':
     st.dataframe(df.isnull().sum())
   if st.checkbox("Visualize categorical features"):
     categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
-    df=df[categorical_feature_columns]
-    st.dataframe(df)
+    dt=df[categorical_feature_columns]
+    st.dataframe(dt)
   if st.checkbox("Encoding features"):
     label= LabelEncoder()
     for col in df.columns:
       df[col]=label.fit_transform(df[col])
     st.dataframe(df)
+    
   st.subheader("Feature Engineering")    
   if st.checkbox("Select Columns for creation of model"):
     all_columns = df.columns.tolist()
