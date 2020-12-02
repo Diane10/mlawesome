@@ -848,16 +848,16 @@ elif datasetchoice == 'Yes':
           st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
           #    prediction part    
          if st.checkbox('Prediction Part'):
-            dt= set(X.columns)
-            user_input=[]
-            for i in dt:
-               firstname = st.text_input(i,"Type here...")
-               user_input.append(firstname)
-            if st.button("Prediction",key='predict'):
-               my_array= np.array([user_input])
-               model.fit(X_train,y_train)
-               y_user_prediction= model.predict(my_array)
-               st.write(y_user_prediction)
+             dt= set(X.columns)
+             user_input=[]
+             for i in dt:
+                firstname = st.text_input(i,"Type here...")
+                user_input.append(firstname)
+             if st.button("Prediction",key='predict'):
+                 my_array= np.array([user_input])
+                 model.fit(X_train,y_train)
+                 y_user_prediction= model.predict(my_array)
+                 st.write(y_user_prediction)
   
         
   
@@ -976,43 +976,6 @@ elif datasetchoice == 'Yes':
           model.fit(X_train, y_train, epochs=10)
           test_loss, test_acc =model.evaluate(X_test,  y_test, verbose=2)
           st.write('Model accuracy: ',test_acc*100)
-#   if classifier_name == 'XGBOOST':
-#       st.sidebar.subheader('Model Hyperparmeter')
-#       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
-#       seed= st.sidebar.number_input("number of the seed",1,150,step=1,key='seed')
-#       metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
-  
-#       if st.sidebar.button("classify",key='classify'):
-#           st.subheader("XGBOOST result")
-    
-#           model= xgb.XGBClassifier(n_estimators=n_estimators,seed=seed)
-#           model.fit(X_trained,y_train)
-#           y_prediction= model.predict(X_tested)
-#           acc= accuracy_score(y_test,y_prediction)
-#           st.write("Accuracy:",acc.round(2))
-#           st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
-#           st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
-#           st.write("ROC_AUC_score:",roc_auc_score(y_test,y_prediction,average='micro').round(2))
-  
-        
-  
-#           if 'confusion matrix' in metrics:
-#               st.set_option('deprecation.showPyplotGlobalUse', False)
-#               st.subheader('confusion matrix')
-#               plot_confusion_matrix(model,X_tested,y_test)
-#               st.pyplot()
-#           if 'roc_curve' in metrics:
-#               st.set_option('deprecation.showPyplotGlobalUse', False)
-#               st.subheader('plot_roc_curve')
-#               plot_roc_curve(model,X_tested,y_test)
-#               st.pyplot()
-#           if 'precision_recall_curve' in metrics:
-#               st.set_option('deprecation.showPyplotGlobalUse', False)
-#               st.subheader('precision_recall_curve')
-#               plot_roc_curve(model,X_tested,y_test)
-#               st.pyplot() 
-                    
-        
 
 
 
