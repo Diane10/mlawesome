@@ -196,7 +196,7 @@ if datasetchoice=='No':
   st.subheader("Feature Engineering")    
   if st.checkbox("Select Columns for creation of model"):
     all_columns = df.columns.tolist()
-    select_columns_ = st.multiselect("Select",all_columns,key='engenering')
+    select_columns = st.multiselect("Select",all_columns,key='engenering')
     new_df = df[select_columns]
     st.dataframe(new_df)
     df=new_df
