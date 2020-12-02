@@ -828,18 +828,18 @@ elif datasetchoice == 'Yes':
               st.subheader('precision_recall_curve')
               plot_roc_curve(model,X_tested,y_test)
               st.pyplot() 
-   if st.side.sicheckbox('Prediction Part'):
-              dt= set(X.columns)
-              user_input=[]
-              for i in dt:
-                 firstname = st.text_input(i,"Type here...")
-                 user_input.append(firstname)
-              if st.button("Prediction",key='predict'):
-                  my_array= np.array([user_input])
-                  model=AdaBoostClassifier(n_estimators=12)
-                  model.fit(X_train,y_train)
-                  y_user_prediction= model.predict(my_array)
-                  st.write(y_user_prediction)            
+  if st.side.sicheckbox('Prediction Part'):
+      dt= set(X.columns)
+      user_input=[]
+      for i in dt:
+          firstname = st.text_input(i,"Type here...")
+          user_input.append(firstname)
+          if st.button("Prediction",key='predict'):
+              my_array= np.array([user_input])
+              model=AdaBoostClassifier(n_estimators=12)
+              model.fit(X_train,y_train)
+              y_user_prediction= model.predict(my_array)
+              st.write(y_user_prediction)            
   if classifier_name == 'ADABoost':
       st.sidebar.subheader('Model Hyperparmeter')
       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
