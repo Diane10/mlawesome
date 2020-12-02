@@ -114,7 +114,7 @@ if datasetchoice=='No':
   if st.checkbox("Summary"):
     st.write(df.describe().T)
 
-  ## Plot and Visualization
+  ## and Visualization
 
   st.subheader("Data Visualization")
   # Correlation
