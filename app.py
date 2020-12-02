@@ -179,6 +179,17 @@ if datasetchoice=='No':
 
     if st.button("End of Data Exploration"):
       st.balloons()
+  st.subheader("Data Cleaning")
+  if st.checkbox("Visualize null value"):
+    st.dataframe(df.isnull().sum())
+  if st.checkbox("Visualize categorical features"):
+    categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
+    st.dataframe(df[categorical_feature_columns])
+  if st.checkbox("Encoding features"):
+    label= LabelEncoder()
+    for col in df.columns:
+      df[col]=label.fit_transform(df[col])
+      st.dataframe(df.head(20))
   st.subheader("Feature Engineering")    
   if st.checkbox("Select Columns for creation of model"):
     all_columns = df.columns.tolist()
@@ -191,9 +202,7 @@ if datasetchoice=='No':
       'Choose classifier',
       ('KNN', 'SVM', 'Random Forest','Logistic Regression','GradientBoosting','ADABoost','Unsupervised Learning(K-MEANS)','Deep Learning')
   )
-  label= LabelEncoder()
-  for col in df.columns:
-    df[col]=label.fit_transform(df[col])
+  
   
   Y = df.target
   X = df.drop(columns=['target'])
