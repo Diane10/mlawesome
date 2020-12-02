@@ -476,8 +476,24 @@ if datasetchoice=='No':
       if st.sidebar.button("optimize",key='opt'):
           ensemble = VotingClassifier(estimator)
           results = cross_val_score(ensemble, X, Y)
-          st.write(results.mean())       
-                      
+          st.write(results.mean())   
+          
+  if st.sidebar.checkbox('Prediction Part'):
+      st.subheader('Please fill out this form')
+      dt= set(X.columns)
+      user_input=[]
+      
+      for i in dt:
+          firstname = st.text_input(i,"Type here...")
+          user_input.append(firstname)
+      if st.button("Prediction",key='algorithm'):
+          my_array= np.array([user_input])
+          model=AdaBoostClassifier(n_estimators=12)
+          model.fit(X_train,y_train)
+          y_user_prediction= model.predict(my_array)
+          for i in df.target.unique():
+              if i == y_user_prediction:
+                 st.success('This Data located in this class {}'.format(y_user_prediction))                    
   if classifier_name == 'GradientBoosting':
       st.sidebar.subheader('Model Hyperparmeter')
       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
