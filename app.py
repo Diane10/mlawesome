@@ -192,7 +192,7 @@ if datasetchoice=='No':
       df[col]=label.fit_transform(df[col])
     numerical_feature_columns = list(df._get_numeric_data().columns)
     df=df[numerical_feature_columns]
-    st.dataframe()
+    st.dataframe(df)
   st.subheader("Feature Engineering")    
   if st.checkbox("Select Columns for creation of model"):
     all_columns = df.columns.tolist()
