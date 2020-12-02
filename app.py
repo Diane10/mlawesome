@@ -132,7 +132,7 @@ if datasetchoice=='No':
       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
       st.pyplot()
 
-  # Count Plot
+  # Count
   if st.checkbox("Plot of Value Counts"):
     st.text("Value Counts By Target")
     all_columns_names = df.columns.tolist()
