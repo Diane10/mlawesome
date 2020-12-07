@@ -597,12 +597,18 @@ elif datasetchoice == 'Yes':
 
 
   # Pie Chart
-  if st.checkbox("Pie Plot"):
+   if st.checkbox("Pie Plot"):
     all_columns_names = df.columns.tolist()
     if st.button("Generate Pie Plot"):
       st.success("Generating A Pie Plot")
       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
       st.pyplot()
+#   if st.checkbox("Pie Plot"):
+#     all_columns_names = df.columns.tolist()
+#     if st.button("Generate Pie Plot"):
+#       st.success("Generating A Pie Plot")
+#       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
+#       st.pyplot()
 
   # Count Plot
   if st.checkbox("Plot of Value Counts"):
@@ -715,16 +721,22 @@ elif datasetchoice == 'Yes':
   
   class_name=['yes','no']
   if classifier_name == 'Deep Learning':
+      st.sidebar.subheader('Model Hyperparmeter')
+      epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
+      units= st.sidebar.number_input("Dense layers",3,30,step=1,key='units')
+      rate= st.sidebar.slider("Learning Rate",0,5,key='rate')
+      activation= st.sidebar.radio("Activation Function",("softmax","sigmoid"),key='activation')
+      optimizer= st.sidebar.radio("Optimizer",("rmsprop","Adam"),key='opt')
       if st.sidebar.button("classify",key='deep'):
           X_train = X_train / 256.
           model = Sequential()
           model.add(Flatten())
-          model.add(Dense(units=25,activation='relu'))
-          model.add(Dense(units=15,activation='softmax'))
-          model.compile(loss='sparse_categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
-          model.fit(X_train.values, y_train.values, epochs=10)
+          model.add(Dense(units=units,activation='relu'))
+          model.add(Dense(units=units,activation=activation))
+          model.compile(loss='sparse_categorical_crossentropy',optimizer='rmsprop',learning_rate=rate metrics=['accuracy'])
+          model.fit(X_train.values, y_train.values, epochs=epochs)
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
-          st.write('Deep Learning Model accuracy: ',test_acc*100)
+          st.write('Deep Learning Model accuracy: ',test_acc.round(2))
   if classifier_name == 'SVM':
       st.sidebar.subheader('Model Hyperparmeter')
       c= st.sidebar.number_input("c(Reguralization)",0.01,10.0,step=0.01,key='c')
