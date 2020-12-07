@@ -119,6 +119,7 @@ if datasetchoice=='No':
   st.subheader("Data Visualization")
   # Correlation
   # Seaborn Plot
+  st.set_option('deprecation.showPyplotGlobalUse', False)
   if st.checkbox("Correlation Plot[Seaborn]"):
     st.write(sns.heatmap(df.corr(),annot=True))
     st.pyplot()
@@ -126,6 +127,7 @@ if datasetchoice=='No':
 
   # Pie Chart
   if st.checkbox("Pie Plot"):
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     all_columns_names = df.columns.tolist()
     if st.button("Generate Pie Plot"):
       st.success("Generating A Pie Plot")
@@ -135,6 +137,7 @@ if datasetchoice=='No':
   # Count
   if st.checkbox("Plot of Value Counts"):
     st.text("Value Counts By Target")
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     all_columns_names = df.columns.tolist()
     primary_col = st.selectbox("Primary Columm to GroupBy",all_columns_names)
     selected_columns_names = st.multiselect("Select Columns",all_columns_names)
@@ -151,6 +154,7 @@ if datasetchoice=='No':
   # Customizable Plot
 
   st.subheader("Customizable Plot")
+  st.set_option('deprecation.showPyplotGlobalUse', False)
   all_columns_names = df.columns.tolist()
   type_of_plot = st.selectbox("Select Type of Plot",["area","bar","line","hist","box","kde"])
   selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names)
@@ -160,19 +164,23 @@ if datasetchoice=='No':
 
     # Plot By Streamlit
     if type_of_plot == 'area':
+      st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_data = df[selected_columns_names]
       st.area_chart(cust_data)
 
     elif type_of_plot == 'bar':
+      st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_data = df[selected_columns_names]
       st.bar_chart(cust_data)
 
     elif type_of_plot == 'line':
+      st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_data = df[selected_columns_names]
       st.line_chart(cust_data)
 
     # Custom Plot 
     elif type_of_plot:
+      st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_plot= df[selected_columns_names].plot(kind=type_of_plot)
       st.write(cust_plot)
       st.pyplot()
@@ -224,16 +232,22 @@ if datasetchoice=='No':
   
   class_name=['yes','no']  
   if classifier_name == 'Deep Learning':
-      if st.sidebar.button("classify",key='classify'):
+      st.sidebar.subheader('Model Hyperparmeter')
+      epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
+      units= st.sidebar.number_input("Dense layers",3,30,step=1,key='units')
+      rate= st.sidebar.slider("Learning Rate",0,5,step=0.1,key='rate')
+      activation= st.sidebar.radio("Activation Function",("softmax","sigmoid"),key='activation')
+      optimizer= st.sidebar.radio("Optimizer",("rmsprop","Adam"),key='opt')
+      if st.sidebar.button("classify",key='deep'):
           X_train = X_train / 256.
           model = Sequential()
           model.add(Flatten())
-          model.add(Dense(units=25,activation='relu'))
-          model.add(Dense(units=15,activation='softmax'))
-          model.compile(loss='sparse_categorical_crossentropy',optimizer='rmsprop', metrics=['accuracy'])
-          model.fit(X_train.values, y_train.values, epochs=10)
+          model.add(Dense(units=units,activation='relu'))
+          model.add(Dense(units=units,activation=activation))
+          model.compile(loss='sparse_categorical_crossentropy',optimizer=optimizer,learning_rate=rate,metrics=['accuracy'])
+          model.fit(X_train.values, y_train.values, epochs=epochs)
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
-          st.write('Deep Learning Model accuracy: ',test_acc*100)
+          st.write('Deep Learning Model accuracy: ',test_acc.round(2))
          
   if classifier_name == 'Unsupervised Learning(K-MEANS)':
        st.sidebar.subheader('Model Hyperparmeter')
@@ -592,6 +606,7 @@ elif datasetchoice == 'Yes':
   # Correlation
   # Seaborn Plot
   if st.checkbox("Correlation Plot[Seaborn]"):
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.write(sns.heatmap(df.corr(),annot=True))
     st.pyplot()
 
@@ -599,6 +614,7 @@ elif datasetchoice == 'Yes':
   if st.checkbox("Pie Plot"):
     all_columns_names = df.columns.tolist()
     if st.button("Generate Pie Plot"):
+      st.set_option('deprecation.showPyplotGlobalUse', False)
       st.success("Generating A Pie Plot")
       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
       st.pyplot()
@@ -610,6 +626,7 @@ elif datasetchoice == 'Yes':
     primary_col = st.selectbox("Primary Columm to GroupBy",all_columns_names)
     selected_columns_names = st.multiselect("Select Columns",all_columns_names)
     if st.button("Plot"):
+      st.set_option('deprecation.showPyplotGlobalUse', False)
       st.text("Generate Plot")
       if selected_columns_names:
         vc_plot = df.groupby(primary_col)[selected_columns_names].count()
@@ -622,11 +639,13 @@ elif datasetchoice == 'Yes':
   # Customizable Plot
 
   st.subheader("Customizable Plot")
+  st.set_option('deprecation.showPyplotGlobalUse', False)
   all_columns_names = df.columns.tolist()
   type_of_plot = st.selectbox("Select Type of Plot",["area","bar","line","hist","box","kde"])
   selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names)
 
   if st.button("Generate Plot"):
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.success("Generating Customizable Plot of {} for {}".format(type_of_plot,selected_columns_names))
 
     # Plot By Streamlit
@@ -717,7 +736,7 @@ elif datasetchoice == 'Yes':
       st.sidebar.subheader('Model Hyperparmeter')
       epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
       units= st.sidebar.number_input("Dense layers",3,30,step=1,key='units')
-      rate= st.sidebar.slider("Learning Rate",0,5,key='rate')
+      rate= st.sidebar.slider("Learning Rate",0,5,step=0.1,key='rate')
       activation= st.sidebar.radio("Activation Function",("softmax","sigmoid"),key='activation')
       optimizer= st.sidebar.radio("Optimizer",("rmsprop","Adam"),key='opt')
       if st.sidebar.button("classify",key='deep'):
