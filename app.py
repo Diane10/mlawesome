@@ -726,7 +726,7 @@ elif datasetchoice == 'Yes':
           model.add(Flatten())
           model.add(Dense(units=units,activation='relu'))
           model.add(Dense(units=units,activation=activation))
-          model.compile(loss='sparse_categorical_crossentropy',optimizer=optimizer,learning_rate=rate metrics=['accuracy'])
+          model.compile(loss='sparse_categorical_crossentropy',optimizer=optimizer,learning_rate=rate,metrics=['accuracy'])
           model.fit(X_train.values, y_train.values, epochs=epochs)
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
           st.write('Deep Learning Model accuracy: ',test_acc.round(2))
