@@ -596,19 +596,12 @@ elif datasetchoice == 'Yes':
     st.pyplot()
 
 
-  # Pie Chart
-   if st.checkbox("Pie Plot"):
+  if st.checkbox("Pie Plot"):
     all_columns_names = df.columns.tolist()
     if st.button("Generate Pie Plot"):
       st.success("Generating A Pie Plot")
       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
       st.pyplot()
-#   if st.checkbox("Pie Plot"):
-#     all_columns_names = df.columns.tolist()
-#     if st.button("Generate Pie Plot"):
-#       st.success("Generating A Pie Plot")
-#       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
-#       st.pyplot()
 
   # Count Plot
   if st.checkbox("Plot of Value Counts"):
