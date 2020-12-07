@@ -76,6 +76,7 @@ if datasetchoice=='No':
 
   # Show Columns
   if st.button("Column Names"):
+    st.success("This is the name of your featuresin your dataset")
     st.write(df.columns)
 
   # Show Shape
@@ -114,7 +115,7 @@ if datasetchoice=='No':
 
 
   # Show Summary
-  st.button("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc?")
+  st.error("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc")
   if st.checkbox("Summary"):
     st.write(df.describe().T)
 
@@ -123,6 +124,7 @@ if datasetchoice=='No':
   st.subheader("Data Visualization")
   # Correlation
   # Seaborn Plot
+  st.info("Let's continue to use graphical representation of chosen data by using visual elements like charts, graphs to continue understand the dataset")
   st.set_option('deprecation.showPyplotGlobalUse', False)
   if st.checkbox("Correlation Plot[Seaborn]"):
     st.write(sns.heatmap(df.corr(),annot=True))
