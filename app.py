@@ -81,7 +81,7 @@ if datasetchoice=='No':
   # Show Shape
   if st.checkbox("Shape of Dataset"):
     st.success("Here you will see number of Rows and Columns and shape of your entire dataset")
-    st.button()
+    
     data_dim = st.radio("Show Dimensions By ",("Rows","Columns"))
     if data_dim == 'Rows':
       st.text("Number of Rows")
@@ -551,7 +551,8 @@ if datasetchoice=='No':
               
 elif datasetchoice == 'Yes': 
   data_file = st.file_uploader("Upload CSV",type=['csv'])
-  st.write("Note:if you want to do classification make sure you have target attributes")    	
+  st.warning("Note:if you want to do classification make sure your target attributes in your Dataset labeled <target>")
+      	
   def file_selector(dataset):
     if dataset is not None:
       file_details = {"Filename":dataset.name,"FileType":dataset.type,"FileSize":dataset.size}
