@@ -55,6 +55,7 @@ html_temp = """
 """
 st.markdown(html_temp,unsafe_allow_html=True)
 st.set_option('deprecation.showfileUploaderEncoding', False)
+st.image("x.png", caption="sample image", width=400)
 st.subheader("Dataset")
 datasetchoice = st.radio("Do you what to use your own dataset?", ("Yes", "No"))
 if datasetchoice=='No':
