@@ -125,7 +125,7 @@ if datasetchoice=='No':
   # Correlation
   # Seaborn Plot
   #measures the relationship between two variables, that is, how they are linked to each other
-  st.info("Allowing the user to perform the graphical representation of information and data. By using visual elements like charts, graphs. Data visualization tools will provide an accessible way to see and understand trends, outliers, and patterns in datasets")
+  st.info("Now you can perform the graphical representation of information and data. By using visual elements like charts, graphs. Data visualization tools will provide an accessible way to see and understand trends, outliers, and patterns in datasets")
   st.set_option('deprecation.showPyplotGlobalUse', False)
   if st.checkbox("Correlation Plot[Seaborn]"):
     st.success("Correlation measures the relationship between two variables,how they are linked to each other")
@@ -197,21 +197,25 @@ if datasetchoice=='No':
     if st.button("End of Data Exploration"):
       st.balloons()
   st.subheader("Data Cleaning")
-  st.info("Preparing dataset for analysis by removing or modifying data that is incorrect, incomplete, irrelevant, duplicated, or improperly formatted. The app will allow the user to do feature engineering to the chosen data set")
+  st.info("Preparing dataset for analysis by removing or modifying data that is incorrect, incomplete, irrelevant, duplicated, or improperly formatted.")
   if st.checkbox("Visualize null value"):
+    st.success("Generating empty rows in your dataset")
     st.dataframe(df.isnull().sum())
   if st.checkbox("Visualize categorical features"):
+    st.success("Generating non numeric features in your dataset")
     categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
     dt=df[categorical_feature_columns]
     st.dataframe(dt)
   if st.checkbox("Encoding features"):
+    st.success("Converting non numeric features into numerical feature in your dataset")
     categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
     label= LabelEncoder()
     for col in df[categorical_feature_columns]:
       df[col]=label.fit_transform(df[col])
     st.dataframe(df)
     
-  st.subheader("Feature Engineering")    
+  st.subheader("Feature Engineering")
+  st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")
   if st.checkbox("Select Columns for creation of model"):
     all_columns = df.columns.tolist()
     select_columns = st.multiselect("Select",all_columns,key='engenering')
