@@ -231,6 +231,38 @@ if datasetchoice=='No':
   X_tested= sl.fit_transform(X_test)
   
   class_name=['yes','no']  
+#   if classifier_name == 'Deep Learning':
+#       st.sidebar.subheader('Model Hyperparmeter')
+#       epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
+#       units= st.sidebar.number_input("Dense layers",3,30,step=1,key='units')
+#       rate= st.sidebar.slider("Learning Rate",0,5,step=0.1,key='rate')
+#       activation= st.sidebar.radio("Activation Function",("softmax","sigmoid"),key='activation')
+#       optimizer= st.sidebar.radio("Optimizer",("rmsprop","Adam"),key='opt')
+#       if st.sidebar.button("classify",key='deep'):
+#           X_train = X_train / 256.
+#           model = Sequential()
+#           model.add(Flatten())
+#           model.add(Dense(units=units,activation='relu'))
+#           model.add(Dense(units=units,activation=activation))
+#           model.compile(loss='sparse_categorical_crossentropy',optimizer=optimizer,learning_rate=rate,metrics=['accuracy'])
+#           model.fit(X_train.values, y_train.values, epochs=epochs)
+#           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
+#           st.write('Deep Learning Model accuracy: ',test_acc.round(2))
+         
+  if classifier_name == 'Unsupervised Learning(K-MEANS)':
+       st.sidebar.subheader('Model Hyperparmeter')
+       n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
+       if st.sidebar.button("Classify",key='unspervised'):	
+           sc = StandardScaler()
+           X_transformed = sc.fit_transform(df)
+           pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
+           kmeans = KMeans(n_clusters)
+           kmeans.fit(pca)
+           st.set_option('deprecation.showPyplotGlobalUse', False)
+           plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
+           plt.title('Clustering Projection');
+           st.pyplot()
+  
   if classifier_name == 'Deep Learning':
       st.sidebar.subheader('Model Hyperparmeter')
       epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
@@ -248,21 +280,6 @@ if datasetchoice=='No':
           model.fit(X_train.values, y_train.values, epochs=epochs)
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
           st.write('Deep Learning Model accuracy: ',test_acc.round(2))
-         
-  if classifier_name == 'Unsupervised Learning(K-MEANS)':
-       st.sidebar.subheader('Model Hyperparmeter')
-       n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
-       if st.sidebar.button("Classify",key='unspervised'):	
-           sc = StandardScaler()
-           X_transformed = sc.fit_transform(df)
-           pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
-           kmeans = KMeans(n_clusters)
-           kmeans.fit(pca)
-           st.set_option('deprecation.showPyplotGlobalUse', False)
-           plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
-           plt.title('Clustering Projection');
-           st.pyplot()
-            
       
   if classifier_name == 'SVM':
       st.sidebar.subheader('Model Hyperparmeter')
