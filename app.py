@@ -101,7 +101,7 @@ if datasetchoice=='No':
     st.dataframe(new_df)
 
   # Show Values
-  st.info("In case you want to see the value of target in your dataset?")
+  st.info("Clik this part in case you want to see the value count of target in your dataset?")
   if st.button("Value Counts"):
     st.text("Value Counts By Target/Class")
     st.write(df.iloc[:,-1].value_counts())
@@ -109,10 +109,12 @@ if datasetchoice=='No':
 
   # Show Datatypes
   if st.button("Data Types"):
+    st.info("This part specifies the type of data your attributes in your Dataset have?")
     st.write(df.dtypes)
 
 
   # Show Summary
+  st.button("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc?")
   if st.checkbox("Summary"):
     st.write(df.describe().T)
 
