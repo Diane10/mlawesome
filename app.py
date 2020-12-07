@@ -70,7 +70,7 @@ if datasetchoice=='No':
   df = pd.read_csv(filename)
   # Show Dataset
   st.subheader("Data Explonatory Analysis")
-  st.button("This part refers to the various ways to explore your choosen data because When you have a raw data set, it won't provide any insight until you start to organize it")
+  st.info("This part refers to the various ways to explore your choosen data because When you have a raw data set, it won't provide any insight until you start to organize it")
   if st.checkbox("Show Dataset"):
     st.dataframe(df)
 
@@ -80,6 +80,8 @@ if datasetchoice=='No':
 
   # Show Shape
   if st.checkbox("Shape of Dataset"):
+    st.success("Here you will see number of Rows and Columns and shape of your entire dataset")
+    st.button()
     data_dim = st.radio("Show Dimensions By ",("Rows","Columns"))
     if data_dim == 'Rows':
       st.text("Number of Rows")
@@ -91,6 +93,7 @@ if datasetchoice=='No':
       st.write(df.shape)
 
   # Select Columns
+  st.info("If you want to visualize the column you want only for better understanding your dataset?")
   if st.checkbox("Select Columns To Show"):
     all_columns = df.columns.tolist()
     selected_columns = st.multiselect("Select",all_columns)
@@ -98,6 +101,7 @@ if datasetchoice=='No':
     st.dataframe(new_df)
 
   # Show Values
+  st.info("In case you want to see the value of target in your dataset?")
   if st.button("Value Counts"):
     st.text("Value Counts By Target/Class")
     st.write(df.iloc[:,-1].value_counts())
