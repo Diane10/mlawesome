@@ -115,7 +115,7 @@ if datasetchoice=='No':
 
 
   # Show Summary
-  st.error("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc")
+  st.info("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc")
   if st.checkbox("Summary"):
     st.write(df.describe().T)
 
@@ -124,9 +124,11 @@ if datasetchoice=='No':
   st.subheader("Data Visualization")
   # Correlation
   # Seaborn Plot
-  st.info("Let's continue to use graphical representation of chosen data by using visual elements like charts, graphs to continue understand the dataset")
+  #measures the relationship between two variables, that is, how they are linked to each other
+  st.info("Allowing the user to perform the graphical representation of information and data. By using visual elements like charts, graphs. Data visualization tools will provide an accessible way to see and understand trends, outliers, and patterns in datasets")
   st.set_option('deprecation.showPyplotGlobalUse', False)
   if st.checkbox("Correlation Plot[Seaborn]"):
+    st.success("Correlation measures the relationship between two variables,how they are linked to each other")
     st.write(sns.heatmap(df.corr(),annot=True))
     st.pyplot()
   
@@ -148,6 +150,7 @@ if datasetchoice=='No':
     primary_col = st.selectbox("Primary Columm to GroupBy",all_columns_names)
     selected_columns_names = st.multiselect("Select Columns",all_columns_names)
     if st.button("Plot"):
+      st.success(" this part select the columns you want to plot")
       st.text("Generate Plot")
       if selected_columns_names:
         vc_plot = df.groupby(primary_col)[selected_columns_names].count()
@@ -194,6 +197,7 @@ if datasetchoice=='No':
     if st.button("End of Data Exploration"):
       st.balloons()
   st.subheader("Data Cleaning")
+  st.info("Preparing dataset for analysis by removing or modifying data that is incorrect, incomplete, irrelevant, duplicated, or improperly formatted. The app will allow the user to do feature engineering to the chosen data set")
   if st.checkbox("Visualize null value"):
     st.dataframe(df.isnull().sum())
   if st.checkbox("Visualize categorical features"):
