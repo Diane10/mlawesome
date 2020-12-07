@@ -69,7 +69,8 @@ if datasetchoice=='No':
   # Read Data
   df = pd.read_csv(filename)
   # Show Dataset
-
+  st.subheader("Data Explonatory Analysis")
+  
   if st.checkbox("Show Dataset"):
     st.dataframe(df)
 
@@ -751,9 +752,10 @@ elif datasetchoice == 'Yes':
       st.sidebar.subheader('Model Hyperparmeter')
       epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
       units= st.sidebar.number_input("Dense layers",3,30,step=1,key='units')
-      rate= st.sidebar.slider("Learning Rate",0,5,step=0.1,key='rate')
+      rate= st.sidebar.slider("Learning Rate",0,5,key='rate')
       activation= st.sidebar.radio("Activation Function",("softmax","sigmoid"),key='activation')
       optimizer= st.sidebar.radio("Optimizer",("rmsprop","Adam"),key='opt')
+      
       if st.sidebar.button("classify",key='deep'):
           X_train = X_train / 256.
           model = Sequential()
@@ -764,6 +766,7 @@ elif datasetchoice == 'Yes':
           model.fit(X_train.values, y_train.values, epochs=epochs)
           test_loss, test_acc =model.evaluate(X_test.values,  y_test.values, verbose=2)
           st.write('Deep Learning Model accuracy: ',test_acc.round(2))
+          
   if classifier_name == 'SVM':
       st.sidebar.subheader('Model Hyperparmeter')
       c= st.sidebar.number_input("c(Reguralization)",0.01,10.0,step=0.01,key='c')
