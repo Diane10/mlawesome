@@ -46,9 +46,6 @@ except Exception as e:
     print(e)
 import streamlit.components.v1 as stc
 
-
-
-
 """ Common ML Dataset Explorer """
 st.title("Machine Learning Tutorial App")
 st.subheader("Explorer with Streamlit")
@@ -270,6 +267,7 @@ if datasetchoice=='No':
       rate= st.sidebar.slider("Learning Rate",0,5,step=0.1,key='rates')
       activation= st.sidebar.radio("Activation Function",("softmax","sigmoid"),key='activations')
       optimizer= st.sidebar.radio("Optimizer",("rmsprop","Adam"),key='opts')
+      
       if st.sidebar.button("classify",key='deeps'):
           X_train = X_train / 256.
           model = Sequential()
