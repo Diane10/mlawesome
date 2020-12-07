@@ -101,8 +101,8 @@ if datasetchoice=='No':
     st.dataframe(new_df)
 
   # Show Values
-  st.info("Clik this part in case you want to see the value count of target in your dataset?")
   if st.button("Value Counts"):
+    st.info("This part shows the value count of target in your dataset?")
     st.text("Value Counts By Target/Class")
     st.write(df.iloc[:,-1].value_counts())
 
