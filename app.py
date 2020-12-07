@@ -265,7 +265,7 @@ if datasetchoice=='No':
       st.sidebar.subheader('Model Hyperparmeter')
       epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
       units= st.sidebar.number_input("Dense layers",3,30,key='units')
-      rate= st.sidebar.slider("Learning Rate",0,5,step=0.1,key='rates')
+      rate= st.sidebar.slider("Learning Rate",0,5,step=1,key='rates')
       activation= st.sidebar.radio("Activation Function",("softmax","sigmoid"),key='activations')
       optimizer= st.sidebar.radio("Optimizer",("rmsprop","Adam"),key='opts')
       
