@@ -199,7 +199,7 @@ if datasetchoice=='No':
   st.subheader("Data Cleaning")
   st.info("Preparing dataset for analysis by removing or modifying data that is incorrect, incomplete, irrelevant, duplicated, or improperly formatted.")
   if st.checkbox("Visualize null value"):
-    st.success("Generating empty rows in your dataset")
+    st.success("Generating features which is having null values in your dataset")
     st.dataframe(df.isnull().sum())
   if st.checkbox("Visualize categorical features"):
     st.success("Generating non numeric features in your dataset")
