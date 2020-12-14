@@ -257,7 +257,7 @@ if datasetchoice=='No':
   st.subheader('Data Preparation')
   st.button('Now that we have done selecting the data set let see the summary for what we have done so far')
   st.write("Wrangle data and prepare it for training,Clean that which may require it (remove duplicates, correct errors, deal with missing values, normalization, data type conversion,Randomize data, which erases the effects of the particular order in which we collected and/or otherwise prepared our data,Visualize data to help detect relevant relationships between variables or class imbalances (bias alert!), or perform other exploratory analysis,Split into training and evaluation sets")
-  if st.chechbox(" Click here to see next steps"):
+  if st.checkbox(" Click here to see next steps"):
     st.write(" 1 step : Choose a Model: Different algorithms are  provides for different tasks; choose the right one")
     st.write(" 2 step : Train the Model: The goal of training is to answer a question or make a prediction correctly as often as possible")
     st.write(" 3 step : Evaluate the Model: Uses some metric or combination of metrics to objective performance of model example accuracy score,confusion metrics,precision call,etc..")
