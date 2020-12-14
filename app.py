@@ -68,14 +68,14 @@ if datasetchoice=='No':
   st.info("You Selected {}".format(filename))
   
   def writetofile(text,file_name):
-   	with open(os.path.join('./datasets',file_name),'w') as f:
-	  f.write(text)
-   	return file_name
+    with open(os.path.join('./datasets',file_name),'w') as f:
+      f.write(text)
+    return file_name
   def make_downloadable(filename):
-	   readfile = open(os.path.join("./datasets",filename)).read()
-	   b64 = base64.b64encode(readfile.encode()).decode()
-	   href = 'Download File File (right-click and save as <some_name>.txt)'.format(b64)
-	   return href 
+    readfile = open(os.path.join("./datasets",filename)).read()
+    b64 = base64.b64encode(readfile.encode()).decode()
+    href = 'Download File File (right-click and save as <some_name>.txt)'.format(b64)
+    return href 
   # Read Data
   df = pd.read_csv(filename)
   # Show Dataset
