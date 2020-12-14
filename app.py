@@ -34,6 +34,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
 from sklearn.preprocessing import StandardScaler
+import base64
 try:
  
     from enum import Enum
@@ -65,7 +66,16 @@ if datasetchoice=='No':
 
   filename = file_selector()
   st.info("You Selected {}".format(filename))
-
+  
+  def writetofile(text,file_name):
+   	with open(os.path.join('./datasets',file_name),'w') as f:
+		  f.write(text)
+   	return file_name
+  def make_downloadable(filename):
+	   readfile = open(os.path.join("./datasets",filename)).read()
+	   b64 = base64.b64encode(readfile.encode()).decode()
+	   href = 'Download File File (right-click and save as <some_name>.txt)'.format(b64)
+	   return href 
   # Read Data
   df = pd.read_csv(filename)
   # Show Dataset
@@ -284,7 +294,7 @@ if datasetchoice=='No':
   X_tested= sl.fit_transform(X_test)
   
   class_name=['yes','no']  
-
+  
          
   if classifier_name == 'Unsupervised Learning(K-MEANS)':
        st.sidebar.subheader('Model Hyperparmeter')
@@ -299,6 +309,20 @@ if datasetchoice=='No':
            plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
            plt.title('Clustering Projection');
            st.pyplot()
+           save_option= st.sidebar.radio("Save to file" ,("Yes","No"))
+           if save_option == 'Yes':
+               file_to_download = writetofile(kmeans,file_name)
+               st.info("Saved Result As :: {}".format(file_name))
+				           d_link = make_downloadable(file_to_download)
+			           	st.markdown(d_link,unsafe_allow_html=True)
+           else:
+               st.subheader("Downloads List")
+		             files = os.listdir(os.path.join('downloads'))
+		             file_to_download = st.selectbox("Select File To Download",files)
+	              st.info("File Name: {}".format(file_to_download))
+		             d_link = make_downloadable(file_to_download)
+		             st.markdown(d_link,unsafe_allow_html=True)
+           
   
   if classifier_name == 'Deep Learning':
       st.sidebar.subheader('Model Hyperparmeter')
