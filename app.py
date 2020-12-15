@@ -532,9 +532,9 @@ if datasetchoice=='No':
       if st.sidebar.button("optimize",key='opt'):
           if cv=='Kfold':
               try:
-		kfold= KFold(n_splits=n_splits)
+		 kfold= KFold(n_splits=n_splits)
               except ValueError:
-                print('n_splits must be more than one')
+                  print('n_splits must be more than one')
               if algorithim_name =='KNN':
                   score =  cross_val_score(KNeighborsClassifier(n_neighbors=4),X,Y,cv=kfold)
                   st.write("KNN Accuracy:",score.mean()) 
