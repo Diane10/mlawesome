@@ -780,8 +780,8 @@ elif datasetchoice == 'Yes':
       if st.checkbox("Select Columns for creation of model"):
 # 	st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")	
         all_columns = df.columns.tolist()
-        selected_columns = st.multiselect("Select",all_columns)
-        new_df = df[selected_columns]
+        selected_column = st.multiselect("Sele",all_columns)
+        new_df = df[selected_column]
     #     st.dataframe(new_df)
         df=new_df  
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
