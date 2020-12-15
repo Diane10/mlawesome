@@ -1118,7 +1118,7 @@ elif datasetchoice == 'Yes':
                   st.write("Accuracy:",score.mean())
     
       if model_optimizer == 'Voting':
-          voting= st.sidebar.multiselect("What is the algorithms you want to use?",('LogisticRegression','DecisionTreeClassifier','SVC','KNeighborsClassifier','GaussianNB','LinearDiscriminantAnalysis','AdaBoostClassifier','GradientBoostingClassifier','ExtraTreesClassifier'))
+          voting= st.sidebar.multiselect("What is the algorithm you want to use?",('LogisticRegression','DecisionTreeClassifier','SVC','KNeighborsClassifier','GaussianNB','LinearDiscriminantAnalysis','AdaBoostClassifier','GradientBoostingClassifier','ExtraTreesClassifier'))
           estimator=[]
           if 'LogisticRegression' in voting:
               model1=LogisticRegression()
