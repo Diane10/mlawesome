@@ -765,12 +765,12 @@ elif datasetchoice == 'Yes':
       if st.checkbox("Visualize null value"):
         st.dataframe(df.isnull().sum())
       if st.checkbox("Visualize categorical features"):
-	st.success("Generating non numeric features in your dataset")
+# 	st.success("Generating non numeric features in your dataset")
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
         dt=df[categorical_feature_columns]
         st.dataframe(dt)
       if st.checkbox("Encoding features"):
-	st.success("Converting non numeric features into numerical feature in your dataset")
+# 	st.success("Converting non numeric features into numerical feature in your dataset")
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
         label= LabelEncoder()
         for col in df[categorical_feature_columns]:
@@ -778,7 +778,7 @@ elif datasetchoice == 'Yes':
         st.dataframe(df)    
       st.subheader("Feature Engineering")    
       if st.checkbox("Select Columns for creation of model"):
-	st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")	
+# 	st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")	
         all_columns = df.columns.tolist()
         selected_columns = st.multiselect("Select",all_columns)
         new_df = df[selected_columns]
