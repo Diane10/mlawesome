@@ -642,16 +642,19 @@ elif datasetchoice == 'Yes':
   st.dataframe(df)
     
     
-
+  st.subheader("Data Explonatory Analysis")
+  st.info("This part refers to the various ways to explore your choosen data because When you have a raw data set, it won't provide any insight until you start to organize it") 
   if st.checkbox("Show Dataset"):
     st.dataframe(df)
 
   # Show Columns
-  if st.button("Column Names"):
+  if st.button("Column Names"): 
+    st.success("This is the name of your featuresin your dataset")	
     st.write(df.columns)
 
   # Show Shape
   if st.checkbox("Shape of Dataset"):
+    st.success("Here you will see number of Rows and Columns and shape of your entire dataset")		
     data_dim = st.radio("Show Dimensions By ",("Rows","Columns"))
     if data_dim == 'Rows':
       st.text("Number of Rows")
@@ -663,6 +666,7 @@ elif datasetchoice == 'Yes':
       st.write(df.shape)
 
   # Select Columns
+  st.info("If you want to visualize the column you want only for better understanding your dataset?")	
   if st.checkbox("Select Columns To Show"):
     all_columns = df.columns.tolist()
     selected_columns = st.multiselect("Select",all_columns)
@@ -670,18 +674,22 @@ elif datasetchoice == 'Yes':
     st.dataframe(new_df)
 
   # Show Values
+  
   if st.button("Value Counts"):
+    st.info("This part shows the value count of target in your dataset?")	
     st.text("Value Counts By Target/Class")
     st.write(df.iloc[:,-1].value_counts())
 
 
   # Show Datatypes
   if st.button("Data Types"):
+    st.info("This part specifies the type of data your attributes in your Dataset have?")	 	
     st.write(df.dtypes)
 
 
   # Show Summary
-  if st.checkbox("Summary"):
+  st.info("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc")
+  if st.checkbox("Summary"):		
     st.write(df.describe().T)
 
   ## Plot and Visualization
@@ -689,6 +697,7 @@ elif datasetchoice == 'Yes':
   st.subheader("Data Visualization")
   # Correlation
   # Seaborn Plot
+  st.info("Now you can perform the graphical representation of information and data. By using visual elements like charts, graphs. Data visualization tools will provide an accessible way to see and understand trends, outliers, and patterns in datasets")
   if st.checkbox("Correlation Plot[Seaborn]"):
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.write(sns.heatmap(df.corr(),annot=True))
@@ -755,13 +764,17 @@ elif datasetchoice == 'Yes':
         if st.button("End of Data Exploration"):
           st.balloons()
       st.subheader("Data Cleaning")
+      st.info("Preparing dataset for analysis by removing or modifying data that is incorrect, incomplete, irrelevant, duplicated, or improperly formatted.")
       if st.checkbox("Visualize null value"):
+	st.success("Generating features which is having null values in your dataset")
         st.dataframe(df.isnull().sum())
       if st.checkbox("Visualize categorical features"):
+	st.success("Generating non numeric features in your dataset")
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
         dt=df[categorical_feature_columns]
         st.dataframe(dt)
       if st.checkbox("Encoding features"):
+	st.success("Converting non numeric features into numerical feature in your dataset")
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
         label= LabelEncoder()
         for col in df[categorical_feature_columns]:
@@ -769,6 +782,7 @@ elif datasetchoice == 'Yes':
         st.dataframe(df)    
       st.subheader("Feature Engineering")    
       if st.checkbox("Select Columns for creation of model"):
+	st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")	
         all_columns = df.columns.tolist()
         selected_columns = st.multiselect("Select",all_columns)
         new_df = df[selected_columns]
@@ -779,6 +793,16 @@ elif datasetchoice == 'Yes':
         for col in df[categorical_feature_columns]:
           df[col]=label.fit_transform(df[col])
         st.dataframe(df) 
+      st.subheader('Data Preparation')
+      st.button('Now that we have done selecting the data set let see the summary for what we have done so far')
+      st.write("Wrangle data and prepare it for training,Clean that which may require it (remove duplicates, correct errors, deal with missing values, normalization, data type conversion,Randomize data, which erases the effects of the particular order in which we collected and/or otherwise prepared our data,Visualize data to help detect relevant relationships between variables or class imbalances (bias alert!), or perform other exploratory analysis,Split into training and evaluation sets")
+      if st.checkbox(" Click here to see next steps"):
+        st.write(" 1 step : Choose a Model: Different algorithms are  provides for different tasks; choose the right one")
+        st.write(" 2 step : Train the Model: The goal of training is to answer a question or make a prediction correctly as often as possible")
+        st.write(" 3 step : Evaluate the Model: Uses some metric or combination of metrics to objective performance of model example accuracy score,confusion metrics,precision call,etc..")
+        st.write(" 4 step : Parameter Tuning: This step refers to hyperparameter tuning, which is an artform as opposed to a science,Tune model parameters for improved performance,Simple model hyperparameters may include: number of training steps, learning rate, initialization values and distribution, etc.")
+        st.write(" 5 step : Using further (test set) data which have, until this point, been withheld from the model (and for which class labels are known), are used to test the model; a better approximation of how the model will perform in the real world")
+	
       st.sidebar.subheader('Choose Classifer')
       classifier_name = st.sidebar.selectbox(
           'Choose classifier',
