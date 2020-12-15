@@ -385,7 +385,7 @@ if datasetchoice=='No':
       max_iter= st.sidebar.slider("maximum number of iteration",100,500,key='max_item')
     
   
-      metrics= st.sidebar.multiselect("Wht is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
+      metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
   
       if st.sidebar.button("classify",key='classify'):
           st.subheader("Logistic Regression result")
@@ -532,9 +532,9 @@ if datasetchoice=='No':
       if st.sidebar.button("optimize",key='opt'):
           if cv=='Kfold':
               try:
-		 kfold= KFold(n_splits=n_splits)
+		kfold= KFold(n_splits=n_splits)
               except ValueError:
-                  print('n_splits must be more than one')
+                print('n_splits must be more than one')
               if algorithim_name =='KNN':
                   score =  cross_val_score(KNeighborsClassifier(n_neighbors=4),X,Y,cv=kfold)
                   st.write("KNN Accuracy:",score.mean()) 
