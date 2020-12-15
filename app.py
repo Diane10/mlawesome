@@ -531,10 +531,7 @@ if datasetchoice=='No':
       n_splits= st.sidebar.slider("maximum number of splits",1,30,key='n_splits')
       if st.sidebar.button("optimize",key='opt'):
           if cv=='Kfold':
-              try:
-		kfold= KFold(n_splits=n_splits)
-              except ValueError:
-                print('n_splits must be more than one')
+              kfold= KFold(n_splits=n_splits)
               if algorithim_name =='KNN':
                   score =  cross_val_score(KNeighborsClassifier(n_neighbors=4),X,Y,cv=kfold)
                   st.write("KNN Accuracy:",score.mean()) 
