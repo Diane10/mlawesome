@@ -588,7 +588,7 @@ if datasetchoice=='No':
               if i == y_user_prediction:
                  st.success('This Data located in this class {}'.format(y_user_prediction))                    
   if classifier_name == 'GradientBoosting':
-      st.sidebar.subheader('Model Hyperparmeter')
+      st.sidebar.subheader('Model Hyperparmeters')
       n_estimators= st.sidebar.number_input("Number of trees in the forest",100,5000,step=10,key='XGBestimators')
       seed= st.sidebar.number_input("learning rate",1,150,step=1,key='seed')
       metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
