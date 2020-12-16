@@ -775,7 +775,16 @@ elif datasetchoice == 'Yes':
         label= LabelEncoder()
         for col in df[categorical_feature_columns]:
           df[col]=label.fit_transform(df[col])
-        st.dataframe(df)    
+        st.dataframe(df)
+      
+
+      X_train, X_test, y_train, y_test = train_test_split( X, Y, test_size=0.33, random_state=8) 
+      from sklearn.preprocessing import StandardScaler
+      sl=StandardScaler()
+      X_trained= sl.fit_transform(X_train)
+      X_tested= sl.fit_transform(X_test)
+      if st.checkbox("Scaling your dataset"):
+        st.dataframe(X_trained)
       st.subheader("Feature Engineering")    
       if st.checkbox("Select Columns for creation of model"):
 # 	st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")	
