@@ -777,7 +777,8 @@ elif datasetchoice == 'Yes':
           df[col]=label.fit_transform(df[col])
         st.dataframe(df)
       
-
+      Y = df.target
+      X = df.drop(columns=['target'])
       X_train, X_test, y_train, y_test = train_test_split( X, Y, test_size=0.33, random_state=8) 
       from sklearn.preprocessing import StandardScaler
       sl=StandardScaler()
