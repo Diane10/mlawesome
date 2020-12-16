@@ -787,7 +787,7 @@ elif datasetchoice == 'Yes':
       if st.checkbox("Scaling your dataset"):
         st.dataframe(X_trained)
       st.subheader("Feature Engineering")    
-      if st.checkbox("Select Columns for creation of model"):
+      if st.checkbox("Select Column for creation of model"):
 # 	st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")	
         all_columns = df.columns.tolist()
         selected_column = st.multiselect("Sele",all_columns)
