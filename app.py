@@ -80,7 +80,7 @@ if datasetchoice=='No':
   df = pd.read_csv(filename)
   # Show Dataset
   st.subheader("Data Explonatory Analysis")
-  st.info("This part refers to the various ways to explore your choosen data because When you have a raw data set, it won't provide any insight until you start to organize it")
+  st.info("This part refers to the various ways to explore your choosen data because When you have a raw data set, it won't provide any insight until you start to organize it. for more info check this link: https://fluvid.com/videos/detail/EDRPXuo-2aS5Ak4PM")
   if st.checkbox("Show Dataset"):
     st.dataframe(df)
 
