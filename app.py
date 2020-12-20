@@ -1,6 +1,7 @@
 import os
-import streamlit as st 
-
+import base64
+import streamlit as st
+ 
 import matplotlib.pyplot as plt 
 import matplotlib
 matplotlib.use('Agg')
@@ -35,6 +36,13 @@ from sklearn.model_selection import KFold
 from sklearn.model_selection import LeaveOneOut
 from sklearn.preprocessing import StandardScaler
 import base64
+ 
+def get_binary_file_downloader_html(bin_file, file_label='File'):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    bin_str = base64.b64encode(data).decode()
+    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
+    return href
 try:
  
     from enum import Enum
@@ -46,11 +54,11 @@ try:
 except Exception as e:
     print(e)
 import streamlit.components.v1 as stc
-
+ 
 """ Common ML Dataset Explorer """
 st.title("Machine Learning Tutorial App")
 st.subheader("Explorer with Streamlit")
-
+ 
 html_temp = """
 <div style="background-color:#000080;"><p style="color:white;font-size:50px;padding:10px">ML is Awesome</p></div>
 """
@@ -63,7 +71,7 @@ if datasetchoice=='No':
     filenames = os.listdir(folder_path)
     selected_filename = st.selectbox("Select A file",filenames)
     return os.path.join(folder_path,selected_filename)
-
+ 
   filename = file_selector()
   st.info("You Selected {}".format(filename))
   
@@ -83,12 +91,12 @@ if datasetchoice=='No':
   st.info("This part refers to the various ways to explore your choosen data because When you have a raw data set, it won't provide any insight until you start to organize it. for more info check this link: https://fluvid.com/videos/detail/EDRPXuo-2aS5Ak4PM")
   if st.checkbox("Show Dataset"):
     st.dataframe(df)
-
+ 
   # Show Columns
   if st.button("Column Names"):
     st.success("This is the name of your featuresin your dataset")
     st.write(df.columns)
-
+ 
   # Show Shape
   if st.checkbox("Shape of Dataset"):
     st.success("Here you will see number of Rows and Columns and shape of your entire dataset")
@@ -102,7 +110,7 @@ if datasetchoice=='No':
       st.write(df.shape[1])
     else:
       st.write(df.shape)
-
+ 
   # Select Columns
   st.info("If you want to visualize the column you want only for better understanding your dataset?")
   if st.checkbox("Select Columns To Show"):
@@ -110,27 +118,27 @@ if datasetchoice=='No':
     selected_columns = st.multiselect("Select",all_columns)
     new_df = df[selected_columns]
     st.dataframe(new_df)
-
+ 
   # Show Values
   if st.button("Value Counts"):
     st.info("This part shows the value count of target in your dataset?")
     st.text("Value Counts By Target/Class")
     st.write(df.iloc[:,-1].value_counts())
-
-
+ 
+ 
   # Show Datatypes
   if st.button("Data Types"):
     st.info("This part specifies the type of data your attributes in your Dataset have?")
     st.write(df.dtypes)
-
-
+ 
+ 
   # Show Summary
   st.info("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc")
   if st.checkbox("Summary"):
     st.write(df.describe().T)
-
+ 
   ## and Visualization
-
+ 
   st.subheader("Data Visualization")
   # Correlation
   # Seaborn Plot
@@ -142,7 +150,7 @@ if datasetchoice=='No':
     st.write(sns.heatmap(df.corr(),annot=True))
     st.pyplot()
   
-
+ 
   # Pie Chart
   if st.checkbox("Pie Plot"):
     st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -151,7 +159,7 @@ if datasetchoice=='No':
       st.success("Generating A Pie Plot")
       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
       st.pyplot()
-
+ 
   # Count
   if st.checkbox("Plot of Value Counts"):
     st.text("Value Counts By Target")
@@ -168,42 +176,42 @@ if datasetchoice=='No':
         vc_plot = df.iloc[:,-1].value_counts()
       st.write(vc_plot.plot(kind="bar"))
       st.pyplot()
-
-
+ 
+ 
   # Customizable Plot
-
+ 
   st.subheader("Customizable Plot")
   st.set_option('deprecation.showPyplotGlobalUse', False)
   all_columns_names = df.columns.tolist()
   type_of_plot = st.selectbox("Select Type of Plot",["area","bar","line","hist","box","kde"])
   selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names)
-
+ 
   if st.button("Generate Plot"):
     st.success("Generating Customizable Plot of {} for {}".format(type_of_plot,selected_columns_names))
-
+ 
     # Plot By Streamlit
     if type_of_plot == 'area':
       st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_data = df[selected_columns_names]
       st.area_chart(cust_data)
-
+ 
     elif type_of_plot == 'bar':
       st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_data = df[selected_columns_names]
       st.bar_chart(cust_data)
-
+ 
     elif type_of_plot == 'line':
       st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_data = df[selected_columns_names]
       st.line_chart(cust_data)
-
+ 
     # Custom Plot 
     elif type_of_plot:
       st.set_option('deprecation.showPyplotGlobalUse', False)
       cust_plot= df[selected_columns_names].plot(kind=type_of_plot)
       st.write(cust_plot)
       st.pyplot()
-
+ 
     if st.button("End of Data Exploration"):
       st.balloons()
   st.subheader("Data Cleaning")
@@ -253,8 +261,8 @@ if datasetchoice=='No':
       st.dataframe(df)
   except Exception as e:
     st.write("please choose target attribute")
-
-
+ 
+ 
   st.subheader('Data Preparation')
   st.button('Now that we have done selecting the data set let see the summary for what we have done so far')
   st.write("Wrangle data and prepare it for training,Clean that which may require it (remove duplicates, correct errors, deal with missing values, normalization, data type conversion,Randomize data, which erases the effects of the particular order in which we collected and/or otherwise prepared our data,Visualize data to help detect relevant relationships between variables or class imbalances (bias alert!), or perform other exploratory analysis,Split into training and evaluation sets")
@@ -264,7 +272,7 @@ if datasetchoice=='No':
     st.write(" 3 step : Evaluate the Model: Uses some metric or combination of metrics to objective performance of model example accuracy score,confusion metrics,precision call,etc..")
     st.write(" 4 step : Parameter Tuning: This step refers to hyperparameter tuning, which is an artform as opposed to a science,Tune model parameters for improved performance,Simple model hyperparameters may include: number of training steps, learning rate, initialization values and distribution, etc.")
     st.write(" 5 step : Using further (test set) data which have, until this point, been withheld from the model (and for which class labels are known), are used to test the model; a better approximation of how the model will perform in the real world")
-
+ 
     
   st.sidebar.subheader('Choose Classifer')
   classifier_name = st.sidebar.selectbox(
@@ -291,20 +299,21 @@ if datasetchoice=='No':
        st.sidebar.subheader('Model Hyperparmeter')
        n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
        save_option= st.sidebar.radio("Save to file" ,("Yes","No"))
-       if st.sidebar.button("Classify",key='unspervised'):	
+       if st.sidebar.button("Classify",key='unspervised'):  
            sc = StandardScaler()
            X_transformed = sc.fit_transform(df)
            pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
            kmeans = KMeans(n_clusters)
            kmeans.fit(pca)
+           filename = 'kmeans_model.sav'
+           pickle.dump(kmeans, open(filename, 'wb'))
            st.set_option('deprecation.showPyplotGlobalUse', False)
            plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
            plt.title('Clustering Projection');
            st.pyplot()
         
            if save_option == 'Yes':
-               with open('mysaved_md_pickle', 'wb') as file:
-                   pickle.dump(kmeans,file)
+               st.markdown(get_binary_file_downloader_html('kmeans_model.sav', 'Model Download'), unsafe_allow_html=True)
                st.success("model successfully saved")
                #file_to_download = writetofile(kmeans,file)
                #st.info("Saved Result As :: {}".format(file))
@@ -318,7 +327,7 @@ if datasetchoice=='No':
               # st.info("File Name: {}".format(file_to_download))
                #d_link = make_downloadable(file_to_download)
                #st.markdown(d_link,unsafe_allow_html=True)
-		           
+                   
   if classifier_name == 'Deep Learning':
       st.sidebar.subheader('Model Hyperparmeter')
       epochs= st.sidebar.slider("number of Epoch",1,30,key='epoch')
@@ -355,7 +364,7 @@ if datasetchoice=='No':
           y_pred= svcclassifier.predict(X_tested)
           acc= accuracy_score(y_test,y_pred)
           st.write("Accuracy:",acc.round(2))
-  # 	st.write("precision_score:",precision_score(y_test,y_pred,average='micro').round(2))
+  #     st.write("precision_score:",precision_score(y_test,y_pred,average='micro').round(2))
           st.write("recall_score:",recall_score(y_test,y_pred,average='micro').round(2))
           if save_option == 'Yes':
                with open('mysaved_md_pickle', 'wb') as file:
@@ -544,13 +553,13 @@ if datasetchoice=='No':
               if algorithim_name =='Logistic Regression':
                   score =  cross_val_score(LogisticRegression(),X,Y,cv=kfold)
                   st.write("Logistic Regression Accuracy:",score.mean())   
-
+ 
          
           if cv=='LeaveOneOut':
               loo = LeaveOneOut()
               score =  cross_val_score(SVC(),X,Y,cv=loo)
               st.write("Accuracy:",score.mean())
-
+ 
   if model_optimizer == 'Voting':
       voting= st.sidebar.multiselect("What is the algorithms you want to use?",('LogisticRegression','DecisionTreeClassifier','SVC','KNeighborsClassifier','GaussianNB','LinearDiscriminantAnalysis','AdaBoostClassifier','GradientBoostingClassifier','ExtraTreesClassifier'))
       estimator=[]
@@ -627,15 +636,15 @@ if datasetchoice=='No':
 elif datasetchoice == 'Yes': 
   data_file = st.file_uploader("Upload CSV",type=['csv'])
   st.warning("Note:if you want to do classification make sure your target attributes in your Dataset labeled <target>")
-      	
+        
   def file_selector(dataset):
     if dataset is not None:
       dataset.seek(0)
       file_details = {"Filename":dataset.name,"FileType":dataset.type,"FileSize":dataset.size}
       st.write(file_details)
       df = pd.read_csv(dataset)
-      return df	
-  df = file_selector(data_file)	
+      return df 
+  df = file_selector(data_file) 
   st.dataframe(df)
     
     
@@ -643,15 +652,15 @@ elif datasetchoice == 'Yes':
   st.info("This part refers to the various ways to explore your choosen data because When you have a raw data set, it won't provide any insight until you start to organize it") 
   if st.checkbox("Show Dataset"):
     st.dataframe(df)
-
+ 
   # Show Columns
   if st.button("Column Names"): 
-    st.success("This is the name of your featuresin your dataset")	
+    st.success("This is the name of your featuresin your dataset")  
     st.write(df.columns)
-
+ 
   # Show Shape
   if st.checkbox("Shape of Dataset"):
-    st.success("Here you will see number of Rows and Columns and shape of your entire dataset")		
+    st.success("Here you will see number of Rows and Columns and shape of your entire dataset")     
     data_dim = st.radio("Show Dimensions By ",("Rows","Columns"))
     if data_dim == 'Rows':
       st.text("Number of Rows")
@@ -661,36 +670,36 @@ elif datasetchoice == 'Yes':
       st.write(df.shape[1])
     else:
       st.write(df.shape)
-
+ 
   # Select Columns
-  st.info("If you want to visualize the column you want only for better understanding your dataset?")	
+  st.info("If you want to visualize the column you want only for better understanding your dataset?")   
   if st.checkbox("Select Columns To Show"):
     all_columns = df.columns.tolist()
     selected_columns = st.multiselect("Select",all_columns)
     new_df = df[selected_columns]
     st.dataframe(new_df)
-
+ 
   # Show Values
   
   if st.button("Value Counts"):
-    st.info("This part shows the value count of target in your dataset?")	
+    st.info("This part shows the value count of target in your dataset?")   
     st.text("Value Counts By Target/Class")
     st.write(df.iloc[:,-1].value_counts())
-
-
+ 
+ 
   # Show Datatypes
   if st.button("Data Types"):
-    st.info("This part specifies the type of data your attributes in your Dataset have?")	 	
+    st.info("This part specifies the type of data your attributes in your Dataset have?")       
     st.write(df.dtypes)
-
-
+ 
+ 
   # Show Summary
   st.info("Now let 's visualize Statistical Analysis of the chosen dataset,min,max,etc")
-  if st.checkbox("Summary"):		
+  if st.checkbox("Summary"):        
     st.write(df.describe().T)
-
+ 
   ## Plot and Visualization
-
+ 
   st.subheader("Data Visualization")
   # Correlation
   # Seaborn Plot
@@ -699,8 +708,8 @@ elif datasetchoice == 'Yes':
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.write(sns.heatmap(df.corr(),annot=True))
     st.pyplot()
-
-
+ 
+ 
   if st.checkbox("Pie Plot"):
     all_columns_names = df.columns.tolist()
     if st.button("Generate Pie Plot"):
@@ -708,7 +717,7 @@ elif datasetchoice == 'Yes':
       st.success("Generating A Pie Plot")
       st.write(df.iloc[:,-1].value_counts().plot.pie(autopct="%1.1f%%"))
       st.pyplot()
-
+ 
   # Count Plot
   if st.checkbox("Plot of Value Counts"):
     st.text("Value Counts By Target")
@@ -724,10 +733,10 @@ elif datasetchoice == 'Yes':
         vc_plot = df.iloc[:,-1].value_counts()
       st.write(vc_plot.plot(kind="bar"))
       st.pyplot()
-
-
+ 
+ 
   # Customizable Plot
-
+ 
   st.subheader("Customizable Plot")
   st.set_option('deprecation.showPyplotGlobalUse', False)
   try: 
@@ -765,12 +774,12 @@ elif datasetchoice == 'Yes':
       if st.checkbox("Visualize null value"):
         st.dataframe(df.isnull().sum())
       if st.checkbox("Visualize categorical features"):
-# 	st.success("Generating non numeric features in your dataset")
+#   st.success("Generating non numeric features in your dataset")
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
         dt=df[categorical_feature_columns]
         st.dataframe(dt)
       if st.checkbox("Encoding features"):
-# 	st.success("Converting non numeric features into numerical feature in your dataset")
+#   st.success("Converting non numeric features into numerical feature in your dataset")
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
         label= LabelEncoder()
         for col in df[categorical_feature_columns]:
@@ -788,7 +797,7 @@ elif datasetchoice == 'Yes':
         st.dataframe(X_trained)
       st.subheader("Feature Engineering")    
       if st.checkbox("Select Column for creation of model"):
-# 	st.info("Now extract features from your dataset to improve the performance of machine learning algorithms")	
+#   st.info("Now extract features from your dataset to improve the performance of machine learning algorithms") 
         all_columns = df.columns.tolist()
         selected_column = st.multiselect("Sele",all_columns)
         new_df = df[selected_column]
@@ -808,7 +817,7 @@ elif datasetchoice == 'Yes':
         st.write(" 3 step : Evaluate the Model: Uses some metric or combination of metrics to objective performance of model example accuracy score,confusion metrics,precision call,etc..")
         st.write(" 4 step : Parameter Tuning: This step refers to hyperparameter tuning, which is an artform as opposed to a science,Tune model parameters for improved performance,Simple model hyperparameters may include: number of training steps, learning rate, initialization values and distribution, etc.")
         st.write(" 5 step : Using further (test set) data which have, until this point, been withheld from the model (and for which class labels are known), are used to test the model; a better approximation of how the model will perform in the real world")
-	
+    
       st.sidebar.subheader('Choose Classifer')
       classifier_name = st.sidebar.selectbox(
           'Choose classifier',
@@ -823,17 +832,23 @@ elif datasetchoice == 'Yes':
       if classifier_name == 'Unsupervised Learning(K-MEANS)':
         st.sidebar.subheader('Model Hyperparmeter')
         n_clusters= st.sidebar.number_input("number of clusters",2,10,step=1,key='clusters')
-        if st.sidebar.button("classify",key='classify'):	
+        save_option= st.sidebar.radio("Save to file" ,("Yes","No"))
+        if st.sidebar.button("classify",key='classify'):    
             sc = StandardScaler()
             X_transformed = sc.fit_transform(df)
             pca = PCA(n_components=2).fit_transform(X_transformed) # calculation Cov matrix is embeded in PCA
             kmeans = KMeans(n_clusters)
             kmeans.fit(pca)
+            filename = 'kmeans_model.sav'
+            pickle.dump(kmeans, open(filename, 'wb'))
             st.set_option('deprecation.showPyplotGlobalUse', False)
         # plt.figure(figsize=(12,10))
             plt.scatter(pca[:,0],pca[:,1], c=kmeans.labels_, cmap='rainbow')
             plt.title('CLustering Projection');
             st.pyplot()
+            if save_option == 'Yes':
+               st.markdown(get_binary_file_downloader_html('kmeans_model.sav', 'Model Download'), unsafe_allow_html=True)
+               st.success("model successfully saved")
       
       Y = df.target
       X = df.drop(columns=['target'])
@@ -873,16 +888,21 @@ elif datasetchoice == 'Yes':
           gamma= st.sidebar.radio("gamma(kernel coefficiency",("scale","auto"),key='gamma')
       
           metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
-      
+          save_option= st.sidebar.radio("Save to file" ,("Yes","No"))
           if st.sidebar.button("classify",key='classify'):
               st.subheader("SVM result")
               svcclassifier= SVC(C=c,kernel=kernel,gamma=gamma)
               svcclassifier.fit(X_trained,y_train)
+              filename = 'svm_model.sav'
+              pickle.dump(svcclassifier, open(filename, 'wb'))
               y_pred= svcclassifier.predict(X_tested)
               acc= accuracy_score(y_test,y_pred)
               st.write("Accuracy:",acc.round(2))
-      # 	st.write("precision_score:",precision_score(y_test,y_pred,average='micro').round(2))
+      #     st.write("precision_score:",precision_score(y_test,y_pred,average='micro').round(2))
               st.write("recall_score:",recall_score(y_test,y_pred,average='micro').round(2))
+              if save_option == 'Yes':
+                   st.markdown(get_binary_file_downloader_html('svm_model.sav', 'Model Download'), unsafe_allow_html=True)
+                   st.success("model successfully saved")
               if 'confusion matrix' in metrics:
                   st.set_option('deprecation.showPyplotGlobalUse', False)
                   st.subheader('confusion matrix')
@@ -898,6 +918,7 @@ elif datasetchoice == 'Yes':
                   st.subheader('precision_recall_curve')
                   plot_roc_curve(svcclassifier,X_tested,y_test,normalize=False)
                   st.pyplot()
+               
               
       
       
@@ -908,16 +929,21 @@ elif datasetchoice == 'Yes':
         
       
           metrics= st.sidebar.multiselect("Wht is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
-      
+          save_option= st.sidebar.radio("Save to file" ,("Yes","No"))
           if st.sidebar.button("classify",key='classify'):
               st.subheader("Logistic Regression result")
               Regression= LogisticRegression(C=c,max_iter=max_iter)
               Regression.fit(X_trained,y_train)
+              filename = 'logistic_model.sav'
+              pickle.dump( Regression, open(filename, 'wb'))
               y_prediction= Regression.predict(X_tested)
               acc= accuracy_score(y_test,y_prediction)
               st.write("Accuracy:",acc.round(2))
               st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
               st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
+              if save_option == 'Yes':
+               st.markdown(get_binary_file_downloader_html('logistic_model.sav', 'Model Download'), unsafe_allow_html=True)
+               st.success("model successfully saved")
               if 'confusion matrix' in metrics:
                   st.set_option('deprecation.showPyplotGlobalUse', False)
                   st.subheader('confusion matrix')
@@ -944,16 +970,21 @@ elif datasetchoice == 'Yes':
       
       
           metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
-      
+          save_option= st.sidebar.radio("Save to file" ,("Yes","No"))
           if st.sidebar.button("classify",key='classify'):
               st.subheader("Random Forest result")
               model= RandomForestClassifier(n_estimators=n_estimators,max_depth=max_depth,bootstrap=bootstrap)
               model.fit(X_trained,y_train)
+              filename = 'randomforest_model.sav'
+              pickle.dump(model, open(filename, 'wb'))
               y_prediction= model.predict(X_tested)
               acc= accuracy_score(y_test,y_prediction)
               st.write("Accuracy:",acc.round(2))
               st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
               st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
+              if save_option == 'Yes':
+               st.markdown(get_binary_file_downloader_html('randomforest_model.sav', 'Model Download'), unsafe_allow_html=True)
+               st.success("model successfully")
               if 'confusion matrix' in metrics:
                   st.set_option('deprecation.showPyplotGlobalUse', False)
                   st.subheader('confusion matrix')
@@ -979,16 +1010,21 @@ elif datasetchoice == 'Yes':
       
       
           metrics= st.sidebar.multiselect("What is the metrics to plot?",('confusion matrix','roc_curve','precision_recall_curve'))
-      
+          save_option= st.sidebar.radio("Save to file" ,("Yes","No"))
           if st.sidebar.button("classify",key='classify'):
               st.subheader("KNN result")
               model= KNeighborsClassifier(n_neighbors=n_neighbors,leaf_size=leaf_size,weights=weights)
               model.fit(X_trained,y_train)
+              filename = 'knn_model.sav'
+              pickle.dump(model, open(filename, 'wb'))
               y_prediction= model.predict(X_tested)
               acc= accuracy_score(y_test,y_prediction)
               st.write("Accuracy:",acc.round(2))
               st.write("precision_score:",precision_score(y_test,y_prediction,average='micro').round(2))
               st.write("recall_score:",recall_score(y_test,y_prediction,average='micro').round(2))
+              if save_option == 'Yes':
+               st.markdown(get_binary_file_downloader_html('knn_model.sav', 'Model Download'), unsafe_allow_html=True)
+               st.success("model successfully")
               if 'confusion matrix' in metrics:
                   st.set_option('deprecation.showPyplotGlobalUse', False)
                   st.subheader('confusion matrix')
@@ -1159,77 +1195,3 @@ elif datasetchoice == 'Yes':
               st.write('Model accuracy: ',test_acc*100)
   except AttributeError:
           st.write('Please upload dataset')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
