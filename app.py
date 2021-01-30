@@ -126,7 +126,7 @@ if datasetchoice=='No':
     st.write(df.iloc[:,-1].value_counts())
  
  
-  # Show Datatypes
+  # Show Datatype
   if st.button("Data Types"):
     st.info("This part specifies the type of data your attributes in your Dataset have?")
     st.write(df.dtypes)
