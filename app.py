@@ -1253,17 +1253,17 @@ if choice == "Home":
     st.markdown("This web platform provides Machine Learning as a service and the most critical existing classiﬁcation algorithms, Natural language processing, Deep Learning and Computer Vision. As a result, you will try many different algorithms and pick and evaluate each performance and select the winner. The algorithms must be appropriate for the problem. This app make machine learning more accessible to the novice.  The platform developed in this project will be open-source")
 
     st.subheader('Machine Learning Classification –Algorithms')
-    st.image('https://data-flair.training/blogs/wp-content/uploads/sites/2/2019/10/Machine-Learning-Classification-Algorithms.jpg')
+    st.image('https://data-flair.training/blogs/wp-content/uploads/sites/2/2019/10/Machine-Learning-Classification-Algorithms.jpg',use_column_width=True)
     st.markdown('Classification is one of the most important aspects of supervised learning. This app, we will support the various classification algorithms like logistic regression, naive bayes, decision trees, random forests and many more. ')
     st.subheader('Natural Language Processing')
-    st.image('https://d1m75rqqgidzqn.cloudfront.net/wp-data/2021/01/18170655/an-introduction-to-natural-language-processing-with-python-for-seos-5f3519eeb8368.png')
+    st.image('https://d1m75rqqgidzqn.cloudfront.net/wp-data/2021/01/18170655/an-introduction-to-natural-language-processing-with-python-for-seos-5f3519eeb8368.png',use_column_width=True)
     st.markdown('Not so long ago, it didn’t really matter if you spoke English, Russian, Hebrew, Italian, Portuguese, etc. —  computers were able to understand only those who had command of the language made up of millions of zeros and ones, and this was a relatively small number of people. But things have changed, and today, with a developing branch of artificial intelligence — natural language processing —  the communication between humans and machines is greatly facilitated. Considering this, NLP can be defined as:')
-    st.image('https://res.cloudinary.com/emerline/image/upload/v1600419508/hg5ghmm7qlmbdu0fedjy.jpg')
+    st.image('https://res.cloudinary.com/emerline/image/upload/v1600419508/hg5ghmm7qlmbdu0fedjy.jpg',use_column_width=True)
     st.markdown('Each of the tasks NLP algorithms complete can be quite useful when applied to deal with certain business challenges. To provide you with a clearer picture of what NLP has on offer, we’ve collected the list of key advantages of the technology. ')
-    st.image('https://res.cloudinary.com/emerline/image/upload/v1600419645/dfi67pikepaqmsxpnqe9.jpg')
+    st.image('https://res.cloudinary.com/emerline/image/upload/v1600419645/dfi67pikepaqmsxpnqe9.jpg',use_column_width=True)
     st.subheader('Computer Vision')
     st.markdown('In 1966, Seymour Papert and Marvin Minsky, two pioneers of artificial intelligence, launched the Summer Vision Project, a two-month, 10-man effort to create a computer system that could identify objects in images.')
-    st.image('https://i.pcmag.com/imagery/articles/061CyMCZV6G2sXUmreKHvXS-1..1581020108.jpg')
+    st.image('https://i.pcmag.com/imagery/articles/061CyMCZV6G2sXUmreKHvXS-1..1581020108.jpg',use_column_width=True)
     st.markdown('To accomplish the task, a computer program had to be able to determine which pixels belonged to which object. This is a problem that the human vision system, powered by our vast knowledge of the world and billions of years of evolution, solves easily. But for computers, whose world consists only of numbers, it is a challenging task.')
     htm_temps ='''<h3>Video Description on how the system works</h3>
     
