@@ -270,6 +270,9 @@ def myApp():
       if st.checkbox('encoded values'):
           for i in label.classes_:
               st.write(i)
+      if st.checkbox("unique target"):
+          for i in df.target.unique():
+              st.write(i)
           
     Y = df.target
     X = df.drop(columns=['target'])
