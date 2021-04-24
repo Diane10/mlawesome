@@ -270,7 +270,7 @@ def myApp():
       if st.checkbox('encoded values'):
           for i in label.classes_:
               st.write(i)
-      if st.checkbox("unique target"):
+      if st.checkbox("unique values"):
           for i in df.target.unique():
               st.write(i)
           
@@ -833,6 +833,12 @@ def myApp():
           for col in df[categorical_feature_columns]:
             df[col]=label.fit_transform(df[col])
           st.dataframe(df)
+          if st.checkbox('encoded values'):
+             for i in label.classes_:
+               st.write(i)
+          if st.checkbox("unique values"):
+             for i in df.target.unique():
+               st.write(i)
         
         Y = df.target
         X = df.drop(columns=['target'])
