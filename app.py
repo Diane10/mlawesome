@@ -853,7 +853,7 @@ def myApp():
         if st.checkbox("Select Column for creation of model"):
   #   st.info("Now extract features from your dataset to improve the performance of machine learning algorithms") 
           all_columns = df.columns.tolist()
-          selected_column = st.multiselect("Sele",all_columns)
+          selected_column = st.multiselect("Select",all_columns)
           new_df = df[selected_column]
       #     st.dataframe(new_df)
           df=new_df  
