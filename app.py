@@ -267,6 +267,10 @@ def myApp():
       for col in df[categorical_feature_columns]:
         df[col]=label.fit_transform(df[col])
       st.dataframe(df)
+      if st.checkbox('encoded values'):
+          for i in label.classes_:
+              st.write(i)
+          
     Y = df.target
     X = df.drop(columns=['target'])
     
