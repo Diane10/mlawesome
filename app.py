@@ -294,7 +294,7 @@ def myApp():
   
       if st.checkbox("Select Columns for creation of model"):
         all_columns = df.columns.tolist()
-        select_columns = st.multiselect("Select",all_columns,key='engenering')
+        select_columns = st.multiselect("Select",all_columns,key='engenerings')
         new_df = df[select_columns]
         df=new_df
         categorical_feature_columns = list(set(df.columns) - set(df._get_numeric_data().columns))
