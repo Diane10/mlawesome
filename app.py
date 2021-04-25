@@ -202,7 +202,7 @@ def myApp():
       st.set_option('deprecation.showPyplotGlobalUse', False)
       all_columns_names = df.columns.tolist()
       primary_col = st.selectbox("Primary Columm to GroupBy",all_columns_names)
-      selected_columns_names = st.multiselect("Select Columns",all_columns_names)
+      selected_columns_names = st.multiselect("Select Columns",all_columns_names,key="valuescounts")
       if st.button("Plot"):
         st.success(" this part select the columns you want to plot")
         st.text("Generate Plot")
@@ -220,7 +220,7 @@ def myApp():
     st.set_option('deprecation.showPyplotGlobalUse', False)
     all_columns_names = df.columns.tolist()
     type_of_plot = st.selectbox("Select Type of Plot",["area","bar","line","hist","box","kde"])
-    selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names)
+    selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names,key="customizedcounts")
   
     if st.button("Generate Plot"):
       st.success("Generating Customizable Plot of {} for {}".format(type_of_plot,selected_columns_names))
@@ -723,7 +723,7 @@ def myApp():
     st.info("If you want to visualize the column you want only for better understanding your dataset?")   
     if st.checkbox("Select Columns To Show"):
       all_columns = df.columns.tolist()
-      selected_columns = st.multiselect("Select",all_columns)
+      selected_columns = st.multiselect("Select",all_columns,key="colcounts")
       new_df = df[selected_columns]
       st.dataframe(new_df)
   
@@ -771,7 +771,7 @@ def myApp():
       st.text("Value Counts By Target")
       all_columns_names = df.columns.tolist()
       primary_col = st.selectbox("Primary Columm to GroupBy",all_columns_names)
-      selected_columns_names = st.multiselect("Select Columns",all_columns_names)
+      selected_columns_names = st.multiselect("Select Columns",all_columns_names,key="targetcounts")
       if st.button("Plot"):
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.text("Generate Plot")
@@ -790,7 +790,7 @@ def myApp():
     try: 
         all_columns_names = df.columns.tolist()
         type_of_plot = st.selectbox("Select Type of Plot",["area","bar","line","hist","box","kde"])
-        selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names)
+        selected_columns_names = st.multiselect("Select Columns To Plot",all_columns_names,key="valuesmulti)
     
         if st.button("Generate Plot"):
           st.set_option('deprecation.showPyplotGlobalUse', False)
