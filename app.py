@@ -783,7 +783,7 @@ def myApp():
         st.pyplot()
   
   
-    # Customizable Plot
+    # Customizable Plo
   
     st.subheader("Customizable Plot")
     st.set_option('deprecation.showPyplotGlobalUse', False)
